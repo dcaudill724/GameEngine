@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameEngine {
-    interface EnvironmentObject {
+    public interface EnvironmentObject {
         float RayCollision (Ray r);
         Color GetColor ();
     }

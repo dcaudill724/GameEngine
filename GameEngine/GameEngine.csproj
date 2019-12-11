@@ -72,6 +72,12 @@
     <Compile Include="UI\CameraControls\AddCamera.Designer.cs">
       <DependentUpon>AddCamera.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\CameraControls\CameraListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\CameraControls\CameraListItem.Designer.cs">
+      <DependentUpon>CameraListItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\CameraControls\RaytracingCamera.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -98,6 +104,9 @@
     </Compile>
     <EmbeddedResource Include="UI\CameraControls\AddCamera.resx">
       <DependentUpon>AddCamera.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CameraControls\CameraListItem.resx">
+      <DependentUpon>CameraListItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\EnvironmentControl\EnvironmentControl.resx">
       <DependentUpon>EnvironmentControl.cs</DependentUpon>

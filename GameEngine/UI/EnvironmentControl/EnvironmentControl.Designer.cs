@@ -25,9 +25,10 @@
         private void InitializeComponent () {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.CamerasPage = new System.Windows.Forms.TabPage();
-            this.ObjectPage = new System.Windows.Forms.TabPage();
             this.NewCameraButton = new System.Windows.Forms.Button();
+            this.ObjectPage = new System.Windows.Forms.TabPage();
             this.newObjectButton = new System.Windows.Forms.Button();
+            this.CameraListBox = new System.Windows.Forms.ListBox();
             this.tabControl1.SuspendLayout();
             this.CamerasPage.SuspendLayout();
             this.ObjectPage.SuspendLayout();
@@ -50,6 +51,7 @@
             // 
             // CamerasPage
             // 
+            this.CamerasPage.Controls.Add(this.CameraListBox);
             this.CamerasPage.Controls.Add(this.NewCameraButton);
             this.CamerasPage.Location = new System.Drawing.Point(4, 22);
             this.CamerasPage.Name = "CamerasPage";
@@ -58,17 +60,6 @@
             this.CamerasPage.TabIndex = 1;
             this.CamerasPage.Text = "Cameras";
             this.CamerasPage.UseVisualStyleBackColor = true;
-            // 
-            // ObjectPage
-            // 
-            this.ObjectPage.Controls.Add(this.newObjectButton);
-            this.ObjectPage.Location = new System.Drawing.Point(4, 22);
-            this.ObjectPage.Name = "ObjectPage";
-            this.ObjectPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ObjectPage.Size = new System.Drawing.Size(175, 434);
-            this.ObjectPage.TabIndex = 2;
-            this.ObjectPage.Text = "Environment Objects";
-            this.ObjectPage.UseVisualStyleBackColor = true;
             // 
             // NewCameraButton
             // 
@@ -80,6 +71,18 @@
             this.NewCameraButton.TabIndex = 0;
             this.NewCameraButton.Text = "Add New Camera";
             this.NewCameraButton.UseVisualStyleBackColor = true;
+            this.NewCameraButton.Click += new System.EventHandler(this.NewCameraButton_Click);
+            // 
+            // ObjectPage
+            // 
+            this.ObjectPage.Controls.Add(this.newObjectButton);
+            this.ObjectPage.Location = new System.Drawing.Point(4, 22);
+            this.ObjectPage.Name = "ObjectPage";
+            this.ObjectPage.Padding = new System.Windows.Forms.Padding(3);
+            this.ObjectPage.Size = new System.Drawing.Size(157, 434);
+            this.ObjectPage.TabIndex = 2;
+            this.ObjectPage.Text = "Environment Objects";
+            this.ObjectPage.UseVisualStyleBackColor = true;
             // 
             // newObjectButton
             // 
@@ -92,6 +95,18 @@
             this.newObjectButton.Text = "Add New Object";
             this.newObjectButton.UseVisualStyleBackColor = true;
             this.newObjectButton.Click += new System.EventHandler(this.NewObjectButton_Click);
+            // 
+            // CameraListBox
+            // 
+            this.CameraListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CameraListBox.FormattingEnabled = true;
+            this.CameraListBox.Location = new System.Drawing.Point(7, 36);
+            this.CameraListBox.Name = "CameraListBox";
+            this.CameraListBox.Size = new System.Drawing.Size(162, 394);
+            this.CameraListBox.TabIndex = 1;
+            this.CameraListBox.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.CameraListBox_ControlAdded);
             // 
             // EnvironmentControl
             // 
@@ -115,5 +130,6 @@
         private System.Windows.Forms.TabPage ObjectPage;
         private System.Windows.Forms.Button NewCameraButton;
         private System.Windows.Forms.Button newObjectButton;
+        private System.Windows.Forms.ListBox CameraListBox;
     }
 }

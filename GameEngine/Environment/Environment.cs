@@ -31,8 +31,6 @@ namespace GameEngine {
             graphicsHandler = new GraphicsHandler();
             cameraMode = false;
             cameras = new List<Camera>();
-            activeCamera = new RaytracingCamera(new Vector3(0, 0, 0), new Vector3(0, 1, 0), (float)(Math.PI / 2), 0.95f, 0.01f, 100);
-            cameras.Add(activeCamera);
         }
 
         private static void initEnvironment() {
@@ -47,9 +45,13 @@ namespace GameEngine {
                     int x = Cursor.Position.X - mousePoint.X;
                     int y = Cursor.Position.Y - mousePoint.Y;
                     Cursor.Position = mousePoint;
-                    graphicsHandler.Update(activeCamera, environmentObjects, x, y);
+                    if (activeCamera != null) {
+                        graphicsHandler.Update(activeCamera, environmentObjects, x, y);
+                    }
                 } else {
-                    graphicsHandler.Update(activeCamera, environmentObjects, 0, 0);
+                    if (activeCamera != null) {
+                        graphicsHandler.Update(activeCamera, environmentObjects, 0, 0);
+                    }
                 }
             }
         }
@@ -63,6 +65,11 @@ namespace GameEngine {
         public static void DisableCameraMode() {
             Cursor.Show();
             cameraMode = false;
+        }
+
+        public static void AddNewCamera(Camera c) {
+            cameras.Add(c);
+            activeCamera = c;
         }
     }
 }

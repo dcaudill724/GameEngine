@@ -7,7 +7,7 @@ using System.Numerics;
 using System.Drawing;
 
 namespace GameEngine {
-    class Ray {
+    public class Ray {
         public Vector3 Position;
         public Vector3 Direction;
         public Color RayColor;

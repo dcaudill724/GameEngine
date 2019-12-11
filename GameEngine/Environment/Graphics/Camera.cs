@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameEngine {
-    interface Camera {
+   public interface Camera {
         void Update(SynchronizedCollection<EnvironmentObject> objects, int mouseXDif, int mouseYDif);
         Bitmap GetFrame();
     }
