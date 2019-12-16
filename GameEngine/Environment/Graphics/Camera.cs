@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Numerics;
 
 namespace GameEngine {
-   public interface Camera {
-        void Update(SynchronizedCollection<EnvironmentObject> objects, int mouseXDif, int mouseYDif);
-        Bitmap GetFrame();
+    public abstract class Camera {
+        public string Name;
+        public Vector3 Position;
+        public Vector3 Direction;
+        public float sensitivity;
+        public float HorizontalFOV;
+        public float VerticalFOV;
+
+        public abstract void Update (SynchronizedCollection<EnvironmentObject> objects, int mouseXDif, int mouseYDif);
+        public abstract Bitmap GetFrame ();
     }
 }

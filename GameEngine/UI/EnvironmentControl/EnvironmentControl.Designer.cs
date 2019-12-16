@@ -23,113 +23,120 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent () {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.CamerasPage = new System.Windows.Forms.TabPage();
-            this.NewCameraButton = new System.Windows.Forms.Button();
-            this.ObjectPage = new System.Windows.Forms.TabPage();
-            this.newObjectButton = new System.Windows.Forms.Button();
+            this.CameraGroupBox = new System.Windows.Forms.GroupBox();
+            this.CameraButtonPanel = new System.Windows.Forms.Panel();
+            this.AddCameraButton = new System.Windows.Forms.Button();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.RemoveCameraButton = new System.Windows.Forms.Button();
+            this.EditCameraButton = new System.Windows.Forms.Button();
             this.CameraListBox = new System.Windows.Forms.ListBox();
-            this.tabControl1.SuspendLayout();
-            this.CamerasPage.SuspendLayout();
-            this.ObjectPage.SuspendLayout();
+            this.CameraGroupBox.SuspendLayout();
+            this.CameraButtonPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // CameraGroupBox
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.CameraGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CameraGroupBox.Controls.Add(this.CameraButtonPanel);
+            this.CameraGroupBox.Controls.Add(this.CameraListBox);
+            this.CameraGroupBox.Location = new System.Drawing.Point(4, 4);
+            this.CameraGroupBox.Name = "CameraGroupBox";
+            this.CameraGroupBox.Size = new System.Drawing.Size(200, 133);
+            this.CameraGroupBox.TabIndex = 0;
+            this.CameraGroupBox.TabStop = false;
+            this.CameraGroupBox.Text = "Cameras";
+            // 
+            // CameraButtonPanel
+            // 
+            this.CameraButtonPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.CamerasPage);
-            this.tabControl1.Controls.Add(this.ObjectPage);
-            this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.Padding = new System.Drawing.Point(0, 0);
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(183, 460);
-            this.tabControl1.TabIndex = 0;
+            this.CameraButtonPanel.BackColor = System.Drawing.Color.Transparent;
+            this.CameraButtonPanel.Controls.Add(this.AddCameraButton);
+            this.CameraButtonPanel.Controls.Add(this.listBox1);
+            this.CameraButtonPanel.Controls.Add(this.RemoveCameraButton);
+            this.CameraButtonPanel.Controls.Add(this.EditCameraButton);
+            this.CameraButtonPanel.Location = new System.Drawing.Point(7, 95);
+            this.CameraButtonPanel.Name = "CameraButtonPanel";
+            this.CameraButtonPanel.Size = new System.Drawing.Size(187, 32);
+            this.CameraButtonPanel.TabIndex = 1;
             // 
-            // CamerasPage
+            // AddCameraButton
             // 
-            this.CamerasPage.Controls.Add(this.CameraListBox);
-            this.CamerasPage.Controls.Add(this.NewCameraButton);
-            this.CamerasPage.Location = new System.Drawing.Point(4, 22);
-            this.CamerasPage.Name = "CamerasPage";
-            this.CamerasPage.Padding = new System.Windows.Forms.Padding(3);
-            this.CamerasPage.Size = new System.Drawing.Size(175, 434);
-            this.CamerasPage.TabIndex = 1;
-            this.CamerasPage.Text = "Cameras";
-            this.CamerasPage.UseVisualStyleBackColor = true;
+            this.AddCameraButton.Location = new System.Drawing.Point(1, 4);
+            this.AddCameraButton.Name = "AddCameraButton";
+            this.AddCameraButton.Size = new System.Drawing.Size(43, 25);
+            this.AddCameraButton.TabIndex = 4;
+            this.AddCameraButton.Text = "Add";
+            this.AddCameraButton.UseVisualStyleBackColor = true;
+            this.AddCameraButton.Click += new System.EventHandler(this.AddCameraButton_Click);
             // 
-            // NewCameraButton
+            // listBox1
             // 
-            this.NewCameraButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.NewCameraButton.Location = new System.Drawing.Point(6, 6);
-            this.NewCameraButton.Name = "NewCameraButton";
-            this.NewCameraButton.Size = new System.Drawing.Size(163, 23);
-            this.NewCameraButton.TabIndex = 0;
-            this.NewCameraButton.Text = "Add New Camera";
-            this.NewCameraButton.UseVisualStyleBackColor = true;
-            this.NewCameraButton.Click += new System.EventHandler(this.NewCameraButton_Click);
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(6, -75);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(187, 69);
+            this.listBox1.TabIndex = 5;
             // 
-            // ObjectPage
+            // RemoveCameraButton
             // 
-            this.ObjectPage.Controls.Add(this.newObjectButton);
-            this.ObjectPage.Location = new System.Drawing.Point(4, 22);
-            this.ObjectPage.Name = "ObjectPage";
-            this.ObjectPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ObjectPage.Size = new System.Drawing.Size(157, 434);
-            this.ObjectPage.TabIndex = 2;
-            this.ObjectPage.Text = "Environment Objects";
-            this.ObjectPage.UseVisualStyleBackColor = true;
+            this.RemoveCameraButton.Location = new System.Drawing.Point(108, 3);
+            this.RemoveCameraButton.Name = "RemoveCameraButton";
+            this.RemoveCameraButton.Size = new System.Drawing.Size(61, 25);
+            this.RemoveCameraButton.TabIndex = 3;
+            this.RemoveCameraButton.Text = "Remove";
+            this.RemoveCameraButton.UseVisualStyleBackColor = true;
+            this.RemoveCameraButton.Click += new System.EventHandler(this.RemoveCameraButton_Click);
             // 
-            // newObjectButton
+            // EditCameraButton
             // 
-            this.newObjectButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.newObjectButton.Location = new System.Drawing.Point(6, 6);
-            this.newObjectButton.Name = "newObjectButton";
-            this.newObjectButton.Size = new System.Drawing.Size(163, 23);
-            this.newObjectButton.TabIndex = 0;
-            this.newObjectButton.Text = "Add New Object";
-            this.newObjectButton.UseVisualStyleBackColor = true;
-            this.newObjectButton.Click += new System.EventHandler(this.NewObjectButton_Click);
+            this.EditCameraButton.Location = new System.Drawing.Point(50, 4);
+            this.EditCameraButton.Name = "EditCameraButton";
+            this.EditCameraButton.Size = new System.Drawing.Size(41, 25);
+            this.EditCameraButton.TabIndex = 2;
+            this.EditCameraButton.Text = "Edit";
+            this.EditCameraButton.UseVisualStyleBackColor = true;
+            this.EditCameraButton.Click += new System.EventHandler(this.EditCameraButton_Click);
             // 
             // CameraListBox
             // 
-            this.CameraListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.CameraListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CameraListBox.FormattingEnabled = true;
-            this.CameraListBox.Location = new System.Drawing.Point(7, 36);
+            this.CameraListBox.Location = new System.Drawing.Point(7, 20);
             this.CameraListBox.Name = "CameraListBox";
-            this.CameraListBox.Size = new System.Drawing.Size(162, 394);
-            this.CameraListBox.TabIndex = 1;
-            this.CameraListBox.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.CameraListBox_ControlAdded);
+            this.CameraListBox.Size = new System.Drawing.Size(187, 69);
+            this.CameraListBox.TabIndex = 5;
+            this.CameraListBox.SelectedIndexChanged += new System.EventHandler(this.CameraListBox_SelectedIndexChanged);
             // 
             // EnvironmentControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tabControl1);
+            this.AutoSize = true;
+            this.Controls.Add(this.CameraGroupBox);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "EnvironmentControl";
-            this.Size = new System.Drawing.Size(183, 460);
-            this.tabControl1.ResumeLayout(false);
-            this.CamerasPage.ResumeLayout(false);
-            this.ObjectPage.ResumeLayout(false);
+            this.Size = new System.Drawing.Size(207, 460);
+            this.Load += new System.EventHandler(this.ButtonLoad);
+            this.CameraGroupBox.ResumeLayout(false);
+            this.CameraButtonPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage CamerasPage;
-        private System.Windows.Forms.TabPage ObjectPage;
-        private System.Windows.Forms.Button NewCameraButton;
-        private System.Windows.Forms.Button newObjectButton;
+        private System.Windows.Forms.GroupBox CameraGroupBox;
+        private System.Windows.Forms.Button RemoveCameraButton;
+        private System.Windows.Forms.Button EditCameraButton;
+        private System.Windows.Forms.Button AddCameraButton;
         private System.Windows.Forms.ListBox CameraListBox;
+        private System.Windows.Forms.Panel CameraButtonPanel;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }

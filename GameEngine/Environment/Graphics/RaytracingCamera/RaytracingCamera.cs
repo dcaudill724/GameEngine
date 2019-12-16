@@ -10,16 +10,16 @@ using System.Threading;
 
 namespace GameEngine {
     class RaytracingCamera : Camera {
-        public Vector3 Position;
-        public Vector3 Direction;
-        private float sensitivity;
         private readonly int resolution;
         private readonly List<List<Ray>> rayLists;
         private readonly int rayListCount;
 
-        public RaytracingCamera (Vector3 Position, Vector3 Direction, float viewWidth, float viewHeight, float sensitivity, int resolution) {
+        public RaytracingCamera (string Name, Vector3 Position, Vector3 Direction, float viewWidth, float viewHeight, float sensitivity, int resolution) {
+            this.Name = Name;
             this.Position = Position;
             this.Direction = Direction;
+            HorizontalFOV = viewWidth;
+            VerticalFOV = viewHeight;
             this.sensitivity = sensitivity;
             this.resolution = resolution;
             rayListCount = 6;
@@ -43,11 +43,10 @@ namespace GameEngine {
                 for (int j = 0; j < resolution; ++j) {
                     float horizontalAngle = startingHorizontalAngle + (horizontalAngleIncrement * j);
 
-                    //might be a problem here with Direction being passed by value but probably not
                     Ray newRay = new Ray(Position, Direction, Color.Black);
-                    newRay.RotateY(horizontalAngle);
                     newRay.RotateZ(verticalAngle);
-
+                    newRay.RotateY(horizontalAngle);
+                    
                     rayLists[(int)(((i * resolution) + j) / ((resolution * resolution) / (float)rayListCount))].Add(newRay);
                 }
             }
@@ -55,10 +54,9 @@ namespace GameEngine {
             //at this point direction is (1, 0, 0);
             //must rotate the vectors to assume the new direction
             float dirXAngle = (Direction.X) / (float)Math.Sqrt(Math.Pow(Direction.X, 2) + Math.Pow(Direction.Y, 2) + Math.Pow(Direction.Z, 2));
-            Console.WriteLine(dirXAngle);
         }
 
-        public Bitmap GetFrame () {
+        public override Bitmap GetFrame () {
             Bitmap frame = new Bitmap(resolution, resolution);
 
             //Rays are placed in the list from top to bottom and each row left to right
@@ -76,7 +74,7 @@ namespace GameEngine {
             return frame;
         }
 
-        public void Update (SynchronizedCollection<EnvironmentObject> objects, int mouseXDif, int mouseYDif) {
+        public override void Update (SynchronizedCollection<EnvironmentObject> objects, int mouseXDif, int mouseYDif) {
             if (mouseXDif != 0 || mouseYDif != 0) {
                 updateDirection(mouseXDif, mouseYDif);
             }
@@ -104,8 +102,8 @@ namespace GameEngine {
             //how to multithread this and actually have it be fast
             List<Thread> threads = new List<Thread>();
 
-            float yAxisAngle = mouseXDif * sensitivity;
-            float xAxisAngle = mouseYDif * -sensitivity;
+            float yAxisAngle = (mouseXDif / 100f) * sensitivity;
+            float xAxisAngle = (mouseYDif / 100f) * -sensitivity;
             RotateDirY(yAxisAngle);
             TurretRotateDirX(xAxisAngle);
 
@@ -166,6 +164,7 @@ namespace GameEngine {
 
         public void TurretRotateDirX (float angle) {
             float angleFromZ = (float)Math.Acos(Vector3.Dot(Direction, new Vector3(0, 0, 1)));
+            Console.WriteLine(angleFromZ);
             RotateDirY(-angleFromZ);
             RotateDirX(angle);
             RotateDirY(angleFromZ);

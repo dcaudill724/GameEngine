@@ -82,13 +82,14 @@ namespace GameEngine {
             Camera c = null;
             switch (cameraType) {
                 case "Ray Tracing":
+                    string name = NameTextBox.Text;
                     Vector3 position = new Vector3(float.Parse(XTextBox.Text), float.Parse(YTextBox.Text), float.Parse(ZTextBox.Text));
-                    Vector3 direction = new Vector3(float.Parse(XTextBox2.Text), float.Parse(YTextBox2.Text), float.Parse(ZTextBox2.Text));
+                    Vector3 direction = Vector3.Normalize(new Vector3(float.Parse(XTextBox2.Text), float.Parse(YTextBox2.Text), float.Parse(ZTextBox2.Text)));
                     float horizontalWidth = float.Parse(RadiansTextBox1.Text);
                     float verticalWidth = float.Parse(RadiansTextBox2.Text);
-                    //need to add sensitivity
+                    float sensitivity = float.Parse(SensitivityTextBox.Text);
                     //need to add resolution
-                    c = new RaytracingCamera(position, direction, horizontalWidth, verticalWidth, 1, 200);
+                    c = new RaytracingCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, 200);
                     break;
             }
             if (c != null) {

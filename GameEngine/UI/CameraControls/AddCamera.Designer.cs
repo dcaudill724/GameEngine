@@ -49,6 +49,10 @@
             this.RadiansLabel2 = new System.Windows.Forms.Label();
             this.HFOVGroupBox = new System.Windows.Forms.GroupBox();
             this.VFOVGroupBox = new System.Windows.Forms.GroupBox();
+            this.NameLabel = new System.Windows.Forms.Label();
+            this.NameTextBox = new System.Windows.Forms.TextBox();
+            this.SensitivityLabel = new System.Windows.Forms.Label();
+            this.SensitivityTextBox = new System.Windows.Forms.TextBox();
             this.HFOVGroupBox.SuspendLayout();
             this.VFOVGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -62,14 +66,14 @@
             "Ray Tracing"});
             this.CameraListBox.Location = new System.Drawing.Point(12, 12);
             this.CameraListBox.Name = "CameraListBox";
-            this.CameraListBox.Size = new System.Drawing.Size(181, 251);
+            this.CameraListBox.Size = new System.Drawing.Size(129, 264);
             this.CameraListBox.TabIndex = 0;
             // 
             // AddCameraButton
             // 
-            this.AddCameraButton.Location = new System.Drawing.Point(199, 211);
+            this.AddCameraButton.Location = new System.Drawing.Point(148, 228);
             this.AddCameraButton.Name = "AddCameraButton";
-            this.AddCameraButton.Size = new System.Drawing.Size(264, 52);
+            this.AddCameraButton.Size = new System.Drawing.Size(264, 48);
             this.AddCameraButton.TabIndex = 1;
             this.AddCameraButton.Text = "Add Camera";
             this.AddCameraButton.UseVisualStyleBackColor = true;
@@ -77,7 +81,7 @@
             // 
             // XTextBox
             // 
-            this.XTextBox.Location = new System.Drawing.Point(266, 47);
+            this.XTextBox.Location = new System.Drawing.Point(215, 38);
             this.XTextBox.Name = "XTextBox";
             this.XTextBox.Size = new System.Drawing.Size(26, 20);
             this.XTextBox.TabIndex = 2;
@@ -85,7 +89,7 @@
             // 
             // YTextBox
             // 
-            this.YTextBox.Location = new System.Drawing.Point(315, 47);
+            this.YTextBox.Location = new System.Drawing.Point(264, 38);
             this.YTextBox.Name = "YTextBox";
             this.YTextBox.Size = new System.Drawing.Size(26, 20);
             this.YTextBox.TabIndex = 3;
@@ -93,7 +97,7 @@
             // 
             // ZTextBox
             // 
-            this.ZTextBox.Location = new System.Drawing.Point(364, 47);
+            this.ZTextBox.Location = new System.Drawing.Point(313, 38);
             this.ZTextBox.Name = "ZTextBox";
             this.ZTextBox.Size = new System.Drawing.Size(26, 20);
             this.ZTextBox.TabIndex = 4;
@@ -102,7 +106,7 @@
             // PositionLabel
             // 
             this.PositionLabel.AutoSize = true;
-            this.PositionLabel.Location = new System.Drawing.Point(196, 50);
+            this.PositionLabel.Location = new System.Drawing.Point(145, 41);
             this.PositionLabel.Name = "PositionLabel";
             this.PositionLabel.Size = new System.Drawing.Size(47, 13);
             this.PositionLabel.TabIndex = 5;
@@ -111,7 +115,7 @@
             // XLabel
             // 
             this.XLabel.AutoSize = true;
-            this.XLabel.Location = new System.Drawing.Point(246, 50);
+            this.XLabel.Location = new System.Drawing.Point(195, 41);
             this.XLabel.Margin = new System.Windows.Forms.Padding(0);
             this.XLabel.Name = "XLabel";
             this.XLabel.Size = new System.Drawing.Size(17, 13);
@@ -121,7 +125,7 @@
             // YLabel
             // 
             this.YLabel.AutoSize = true;
-            this.YLabel.Location = new System.Drawing.Point(295, 50);
+            this.YLabel.Location = new System.Drawing.Point(244, 41);
             this.YLabel.Margin = new System.Windows.Forms.Padding(0);
             this.YLabel.Name = "YLabel";
             this.YLabel.Size = new System.Drawing.Size(17, 13);
@@ -131,7 +135,7 @@
             // ZLabel
             // 
             this.ZLabel.AutoSize = true;
-            this.ZLabel.Location = new System.Drawing.Point(344, 50);
+            this.ZLabel.Location = new System.Drawing.Point(293, 41);
             this.ZLabel.Margin = new System.Windows.Forms.Padding(0);
             this.ZLabel.Name = "ZLabel";
             this.ZLabel.Size = new System.Drawing.Size(17, 13);
@@ -141,7 +145,7 @@
             // ZLabel2
             // 
             this.ZLabel2.AutoSize = true;
-            this.ZLabel2.Location = new System.Drawing.Point(344, 76);
+            this.ZLabel2.Location = new System.Drawing.Point(293, 67);
             this.ZLabel2.Margin = new System.Windows.Forms.Padding(0);
             this.ZLabel2.Name = "ZLabel2";
             this.ZLabel2.Size = new System.Drawing.Size(17, 13);
@@ -151,7 +155,7 @@
             // YLabel2
             // 
             this.YLabel2.AutoSize = true;
-            this.YLabel2.Location = new System.Drawing.Point(295, 76);
+            this.YLabel2.Location = new System.Drawing.Point(244, 67);
             this.YLabel2.Margin = new System.Windows.Forms.Padding(0);
             this.YLabel2.Name = "YLabel2";
             this.YLabel2.Size = new System.Drawing.Size(17, 13);
@@ -161,7 +165,7 @@
             // XLabel2
             // 
             this.XLabel2.AutoSize = true;
-            this.XLabel2.Location = new System.Drawing.Point(246, 76);
+            this.XLabel2.Location = new System.Drawing.Point(195, 67);
             this.XLabel2.Margin = new System.Windows.Forms.Padding(0);
             this.XLabel2.Name = "XLabel2";
             this.XLabel2.Size = new System.Drawing.Size(17, 13);
@@ -171,7 +175,7 @@
             // DirectionLabel
             // 
             this.DirectionLabel.AutoSize = true;
-            this.DirectionLabel.Location = new System.Drawing.Point(196, 76);
+            this.DirectionLabel.Location = new System.Drawing.Point(145, 67);
             this.DirectionLabel.Name = "DirectionLabel";
             this.DirectionLabel.Size = new System.Drawing.Size(52, 13);
             this.DirectionLabel.TabIndex = 12;
@@ -179,7 +183,7 @@
             // 
             // ZTextBox2
             // 
-            this.ZTextBox2.Location = new System.Drawing.Point(364, 73);
+            this.ZTextBox2.Location = new System.Drawing.Point(313, 64);
             this.ZTextBox2.Name = "ZTextBox2";
             this.ZTextBox2.Size = new System.Drawing.Size(26, 20);
             this.ZTextBox2.TabIndex = 11;
@@ -187,7 +191,7 @@
             // 
             // YTextBox2
             // 
-            this.YTextBox2.Location = new System.Drawing.Point(315, 73);
+            this.YTextBox2.Location = new System.Drawing.Point(264, 64);
             this.YTextBox2.Name = "YTextBox2";
             this.YTextBox2.Size = new System.Drawing.Size(26, 20);
             this.YTextBox2.TabIndex = 10;
@@ -195,7 +199,7 @@
             // 
             // XTextBox2
             // 
-            this.XTextBox2.Location = new System.Drawing.Point(266, 73);
+            this.XTextBox2.Location = new System.Drawing.Point(215, 64);
             this.XTextBox2.Name = "XTextBox2";
             this.XTextBox2.Size = new System.Drawing.Size(26, 20);
             this.XTextBox2.TabIndex = 9;
@@ -283,7 +287,7 @@
             this.HFOVGroupBox.Controls.Add(this.RadiansLabel1);
             this.HFOVGroupBox.Controls.Add(this.RadiansTextBox1);
             this.HFOVGroupBox.Controls.Add(this.DegreesTextBox1);
-            this.HFOVGroupBox.Location = new System.Drawing.Point(199, 99);
+            this.HFOVGroupBox.Location = new System.Drawing.Point(148, 116);
             this.HFOVGroupBox.Name = "HFOVGroupBox";
             this.HFOVGroupBox.Size = new System.Drawing.Size(264, 50);
             this.HFOVGroupBox.TabIndex = 26;
@@ -296,18 +300,58 @@
             this.VFOVGroupBox.Controls.Add(this.RadiansLabel2);
             this.VFOVGroupBox.Controls.Add(this.DegreesTextBox2);
             this.VFOVGroupBox.Controls.Add(this.DegreesLabel2);
-            this.VFOVGroupBox.Location = new System.Drawing.Point(199, 155);
+            this.VFOVGroupBox.Location = new System.Drawing.Point(148, 172);
             this.VFOVGroupBox.Name = "VFOVGroupBox";
             this.VFOVGroupBox.Size = new System.Drawing.Size(264, 50);
             this.VFOVGroupBox.TabIndex = 27;
             this.VFOVGroupBox.TabStop = false;
             this.VFOVGroupBox.Text = "Vertical FOV";
             // 
+            // NameLabel
+            // 
+            this.NameLabel.AutoSize = true;
+            this.NameLabel.Location = new System.Drawing.Point(146, 15);
+            this.NameLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.NameLabel.Name = "NameLabel";
+            this.NameLabel.Size = new System.Drawing.Size(38, 13);
+            this.NameLabel.TabIndex = 28;
+            this.NameLabel.Text = "Name:";
+            // 
+            // NameTextBox
+            // 
+            this.NameTextBox.Location = new System.Drawing.Point(187, 12);
+            this.NameTextBox.Name = "NameTextBox";
+            this.NameTextBox.Size = new System.Drawing.Size(152, 20);
+            this.NameTextBox.TabIndex = 29;
+            this.NameTextBox.Text = "Ray tracing Camera";
+            // 
+            // SensitivityLabel
+            // 
+            this.SensitivityLabel.AutoSize = true;
+            this.SensitivityLabel.Location = new System.Drawing.Point(146, 93);
+            this.SensitivityLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.SensitivityLabel.Name = "SensitivityLabel";
+            this.SensitivityLabel.Size = new System.Drawing.Size(57, 13);
+            this.SensitivityLabel.TabIndex = 30;
+            this.SensitivityLabel.Text = "Sensitivity:";
+            // 
+            // SensitivityTextBox
+            // 
+            this.SensitivityTextBox.Location = new System.Drawing.Point(206, 90);
+            this.SensitivityTextBox.Name = "SensitivityTextBox";
+            this.SensitivityTextBox.Size = new System.Drawing.Size(55, 20);
+            this.SensitivityTextBox.TabIndex = 31;
+            this.SensitivityTextBox.Text = "1.0";
+            // 
             // AddCamera
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(841, 278);
+            this.ClientSize = new System.Drawing.Size(420, 285);
+            this.Controls.Add(this.SensitivityTextBox);
+            this.Controls.Add(this.SensitivityLabel);
+            this.Controls.Add(this.NameTextBox);
+            this.Controls.Add(this.NameLabel);
             this.Controls.Add(this.VFOVGroupBox);
             this.Controls.Add(this.HFOVGroupBox);
             this.Controls.Add(this.ZLabel2);
@@ -365,5 +409,9 @@
         private System.Windows.Forms.Label RadiansLabel2;
         private System.Windows.Forms.GroupBox HFOVGroupBox;
         private System.Windows.Forms.GroupBox VFOVGroupBox;
+        private System.Windows.Forms.Label NameLabel;
+        private System.Windows.Forms.TextBox NameTextBox;
+        private System.Windows.Forms.Label SensitivityLabel;
+        private System.Windows.Forms.TextBox SensitivityTextBox;
     }
 }

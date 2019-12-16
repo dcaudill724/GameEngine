@@ -38,7 +38,7 @@
             this.CameraView.Location = new System.Drawing.Point(0, 0);
             this.CameraView.Margin = new System.Windows.Forms.Padding(0);
             this.CameraView.Name = "CameraView";
-            this.CameraView.Size = new System.Drawing.Size(566, 333);
+            this.CameraView.Size = new System.Drawing.Size(639, 333);
             this.CameraView.TabIndex = 0;
             this.CameraView.TabStop = false;
             this.CameraView.Click += new System.EventHandler(this.CameraView_Click);
@@ -47,17 +47,19 @@
             // 
             this.environmentControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.environmentControl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.environmentControl.Location = new System.Drawing.Point(569, 0);
+            this.environmentControl.AutoSize = true;
+            this.environmentControl.BackColor = System.Drawing.Color.Gray;
+            this.environmentControl.Location = new System.Drawing.Point(649, 0);
+            this.environmentControl.Margin = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.environmentControl.Name = "environmentControl";
-            this.environmentControl.Size = new System.Drawing.Size(232, 333);
+            this.environmentControl.Size = new System.Drawing.Size(185, 333);
             this.environmentControl.TabIndex = 1;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(843, 450);
             this.Controls.Add(this.environmentControl);
             this.Controls.Add(this.CameraView);
             this.Name = "Form1";
@@ -65,6 +67,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.CameraView)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

@@ -22,4 +22,4 @@ C:\Users\dusti\Desktop\Coding\GameEngine\GameEngine\obj\Debug\GameEngine.csproj.
 C:\Users\dusti\Desktop\Coding\GameEngine\GameEngine\obj\Debug\GameEngine.exe
 C:\Users\dusti\Desktop\Coding\GameEngine\GameEngine\obj\Debug\GameEngine.pdb
 C:\Users\dusti\Desktop\Coding\GameEngine\GameEngine\obj\Debug\GameEngine.AddCamera.resources
-C:\Users\dusti\Desktop\Coding\GameEngine\GameEngine\obj\Debug\GameEngine.CameraListItem.resources
+C:\Users\dusti\Desktop\Coding\GameEngine\GameEngine\obj\Debug\GameEngine.EditCamera.resources

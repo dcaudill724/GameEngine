@@ -11,9 +11,10 @@ using System.Windows.Forms;
 
 namespace GameEngine {
     static class Environment {
+        public static List<Camera> Cameras;
+
         private static GraphicsHandler graphicsHandler;
         private static SynchronizedCollection<EnvironmentObject> environmentObjects;
-        private static List<Camera> cameras;
         private static Camera activeCamera;
         private static bool cameraMode;
         private static Point mousePoint;
@@ -30,7 +31,7 @@ namespace GameEngine {
         private static void initGraphics() {
             graphicsHandler = new GraphicsHandler();
             cameraMode = false;
-            cameras = new List<Camera>();
+            Cameras = new List<Camera>();
         }
 
         private static void initEnvironment() {
@@ -66,10 +67,29 @@ namespace GameEngine {
             Cursor.Show();
             cameraMode = false;
         }
-
-        public static void AddNewCamera(Camera c) {
-            cameras.Add(c);
+        
+        public static void AddCamera(Camera c) {
+            Cameras.Add(c);
             activeCamera = c;
+        }
+
+        public static void SelectCamera (int index) {
+
+            if (index != -1) {
+                activeCamera = Cameras[index];
+            } else {
+                
+            }
+        }
+
+        public static void RemoveCameraAt(int index) {
+            Cameras.RemoveAt(index);
+            int nextCameraIndex = index > Cameras.Count - 1 ? Cameras.Count - 1 : index;
+            if (Cameras.Count == 0) {
+                activeCamera = null;
+            } else {
+                activeCamera = Cameras[nextCameraIndex];
+            }
         }
     }
 }
