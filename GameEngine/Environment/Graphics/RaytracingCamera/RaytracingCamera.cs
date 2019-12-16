@@ -11,8 +11,9 @@ using System.Threading;
 namespace GameEngine {
     class RaytracingCamera : Camera {
         private readonly int resolution;
-        private readonly List<List<Ray>> rayLists;
+        private readonly List<Ray> rayList;
         private readonly int rayListCount;
+        private float angleFromZ;
 
         public RaytracingCamera (string Name, Vector3 Position, Vector3 Direction, float viewWidth, float viewHeight, float sensitivity, int resolution) {
             this.Name = Name;
@@ -25,10 +26,7 @@ namespace GameEngine {
             rayListCount = 6;
 
             //init (arbitrarily) 6 ray lists
-            rayLists = new List<List<Ray>>();
-            for (int i = 0; i < rayListCount; ++i) {
-                rayLists.Add(new List<Ray>());
-            }
+            rayList = new List<Ray>();
 
 
             float startingHorizontalAngle = -viewWidth / 2;
@@ -46,10 +44,12 @@ namespace GameEngine {
                     Ray newRay = new Ray(Position, Direction, Color.Black);
                     newRay.RotateZ(verticalAngle);
                     newRay.RotateY(horizontalAngle);
-                    
-                    rayLists[(int)(((i * resolution) + j) / ((resolution * resolution) / (float)rayListCount))].Add(newRay);
+
+                    rayList.Add(newRay);
                 }
             }
+
+            angleFromZ = (float)Math.PI/2;
 
             //at this point direction is (1, 0, 0);
             //must rotate the vectors to assume the new direction
@@ -60,15 +60,11 @@ namespace GameEngine {
             Bitmap frame = new Bitmap(resolution, resolution);
 
             //Rays are placed in the list from top to bottom and each row left to right
-            int offset = 0;
-            foreach (List<Ray> list in rayLists) {
-                for (int i = 0; i < list.Count; ++i) {
-                    //i / resolution gets the row
-                    //i % resolution gets the column
-                    Ray temp = list[i];
-                    frame.SetPixel(offset % resolution, offset / resolution, temp.RayColor);
-                    ++offset;
-                }
+            for (int i = 0; i < rayList.Count; ++i) {
+                //i / resolution gets the row
+                //i % resolution gets the column
+                Ray temp = rayList[i];
+                frame.SetPixel(i % resolution, i / resolution, temp.RayColor);
             }
 
             return frame;
@@ -79,23 +75,7 @@ namespace GameEngine {
                 updateDirection(mouseXDif, mouseYDif);
             }
 
-            List<Thread> threads = new List<Thread>();
-
-            int counter = 0;
-
-            foreach (List<Ray> rayList in rayLists) {
-                List<EnvironmentObject> tempList = new List<EnvironmentObject>();
-                foreach (EnvironmentObject e in objects) {
-                    tempList.Add(e);
-                }
-                threads.Add(new Thread(() => castRays(rayList, tempList, ref counter)));
-            }
-
-            foreach (Thread t in threads) {
-                t.Start();
-            }
-
-            while (counter < rayListCount) { }
+            castRays(rayList, objects, 0);
         }
 
         private void updateDirection (int mouseXDif, int mouseYDif) {
@@ -107,22 +87,15 @@ namespace GameEngine {
             RotateDirY(yAxisAngle);
             TurretRotateDirX(xAxisAngle);
 
-            foreach (List<Ray> list in rayLists) {
-                //threads.Add(new Thread(() => {
-                    foreach (Ray r in list) {
-                        r.RotateY(yAxisAngle);
-                        r.TurretRotateX(xAxisAngle);
-                    }
-                //}));
-            }
+            angleFromZ += xAxisAngle;
 
-            foreach (Thread t in threads) {
-                t.Priority = ThreadPriority.Highest;
-                t.Start();
+            foreach (Ray r in rayList) {
+                r.RotateY(yAxisAngle);
+                r.TurretRotateX(xAxisAngle, angleFromZ);
             }
         }
 
-        private void castRays (List<Ray> rays, List<EnvironmentObject> objects, ref int counter) {
+        private void castRays (List<Ray> rays, SynchronizedCollection<EnvironmentObject> objects, int counter) {
             foreach (EnvironmentObject e in objects) {
                 foreach (Ray r in rays) {
                     float minDist = float.PositiveInfinity;
@@ -163,7 +136,6 @@ namespace GameEngine {
         }
 
         public void TurretRotateDirX (float angle) {
-            float angleFromZ = (float)Math.Acos(Vector3.Dot(Direction, new Vector3(0, 0, 1)));
             Console.WriteLine(angleFromZ);
             RotateDirY(-angleFromZ);
             RotateDirX(angle);

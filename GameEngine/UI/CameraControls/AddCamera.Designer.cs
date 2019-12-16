@@ -68,6 +68,7 @@
             this.CameraListBox.Name = "CameraListBox";
             this.CameraListBox.Size = new System.Drawing.Size(129, 264);
             this.CameraListBox.TabIndex = 0;
+            this.CameraListBox.SelectedIndexChanged += new System.EventHandler(this.CameraListBox_SelectedIndexChanged);
             // 
             // AddCameraButton
             // 

@@ -42,8 +42,7 @@ namespace GameEngine {
             Direction = new Vector3(x, y, Direction.Z);
         }
 
-        public void TurretRotateX(float angle) {
-            float angleFromZ = (float)Math.Acos(Vector3.Dot(Direction, new Vector3(0, 0, 1)));
+        public void TurretRotateX(float angle, float angleFromZ) {
             RotateY(-angleFromZ);
             RotateX(angle);
             RotateY(angleFromZ);

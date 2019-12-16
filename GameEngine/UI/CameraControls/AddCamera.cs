@@ -41,8 +41,8 @@ namespace GameEngine {
             }
             try {
                 double value = Convert.ToDouble(RadiansTextBox2.Text);
-                value = value % (Math.PI * 2);
-                value = value * (180 / Math.PI);
+                value %= (Math.PI * 2);
+                value *= (180 / Math.PI);
                 DegreesTextBox2.Text = Convert.ToString(value);
             } catch {
                 DegreesTextBox2.Text = "0";
@@ -100,5 +100,9 @@ namespace GameEngine {
             }
         }
         #endregion
+
+        private void CameraListBox_SelectedIndexChanged (object sender, EventArgs e) {
+            
+        }
     }
 }
