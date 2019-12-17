@@ -70,11 +70,23 @@
     <Compile Include="Environment\Graphics\RaytracingCamera\RaytracingCamera.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\CameraControls\AddCamera.cs">
+    <Compile Include="UI\CameraControls\AddCameraForm\AddCamera.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\CameraControls\AddCamera.Designer.cs">
+    <Compile Include="UI\CameraControls\AddCameraForm\AddCamera.Designer.cs">
       <DependentUpon>AddCamera.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\CameraControls\AddCameraForm\FieldDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\CameraControls\AddCameraForm\FieldDisplay.Designer.cs">
+      <DependentUpon>FieldDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\CameraControls\CameraListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\CameraControls\CameraListItem.Designer.cs">
+      <DependentUpon>CameraListItem.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\CameraControls\EditCamera.cs">
       <SubType>Form</SubType>
@@ -100,8 +112,14 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UI\CameraControls\AddCamera.resx">
+    <EmbeddedResource Include="UI\CameraControls\AddCameraForm\AddCamera.resx">
       <DependentUpon>AddCamera.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CameraControls\AddCameraForm\FieldDisplay.resx">
+      <DependentUpon>FieldDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CameraControls\CameraListItem.resx">
+      <DependentUpon>CameraListItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\CameraControls\EditCamera.resx">
       <DependentUpon>EditCamera.cs</DependentUpon>

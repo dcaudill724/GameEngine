@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Numerics;
 using System.Drawing;
-using System.Collections.Concurrent;
 using System.Threading;
 
 namespace GameEngine {
     class RaytracingCamera : Camera {
-        private readonly int resolution;
-        private readonly List<Ray> rayList;
-        private readonly int rayListCount;
+        public readonly int Resolution;
+        private readonly List<Ray> RayList;
         private float angleFromZ;
+
+        public RaytracingCamera() {
+            Name = "Raytracing Camera";
+            Position = new Vector3(0, 0, 0);
+            Direction = new Vector3(1, 0, 0);
+            HorizontalFOV = 70 * ((float)Math.PI / 180);
+            VerticalFOV = 70 * ((float)Math.PI / 180);
+            sensitivity = 1;
+            Resolution = 100;
+        }
 
         public RaytracingCamera (string Name, Vector3 Position, Vector3 Direction, float viewWidth, float viewHeight, float sensitivity, int resolution) {
             this.Name = Name;
@@ -22,11 +27,8 @@ namespace GameEngine {
             HorizontalFOV = viewWidth;
             VerticalFOV = viewHeight;
             this.sensitivity = sensitivity;
-            this.resolution = resolution;
-            rayListCount = 6;
-
-            //init (arbitrarily) 6 ray lists
-            rayList = new List<Ray>();
+            Resolution = resolution;
+            RayList = new List<Ray>();
 
 
             float startingHorizontalAngle = -viewWidth / 2;
@@ -45,7 +47,7 @@ namespace GameEngine {
                     newRay.RotateZ(verticalAngle);
                     newRay.RotateY(horizontalAngle);
 
-                    rayList.Add(newRay);
+                    RayList.Add(newRay);
                 }
             }
 
@@ -57,14 +59,14 @@ namespace GameEngine {
         }
 
         public override Bitmap GetFrame () {
-            Bitmap frame = new Bitmap(resolution, resolution);
+            Bitmap frame = new Bitmap(Resolution, Resolution);
 
             //Rays are placed in the list from top to bottom and each row left to right
-            for (int i = 0; i < rayList.Count; ++i) {
+            for (int i = 0; i < RayList.Count; ++i) {
                 //i / resolution gets the row
                 //i % resolution gets the column
-                Ray temp = rayList[i];
-                frame.SetPixel(i % resolution, i / resolution, temp.RayColor);
+                Ray temp = RayList[i];
+                frame.SetPixel(i % Resolution, i / Resolution, temp.RayColor);
             }
 
             return frame;
@@ -75,7 +77,7 @@ namespace GameEngine {
                 updateDirection(mouseXDif, mouseYDif);
             }
 
-            castRays(rayList, objects, 0);
+            castRays(RayList, objects, 0);
         }
 
         private void updateDirection (int mouseXDif, int mouseYDif) {
@@ -89,7 +91,7 @@ namespace GameEngine {
 
             angleFromZ += xAxisAngle;
 
-            foreach (Ray r in rayList) {
+            foreach (Ray r in RayList) {
                 r.RotateY(yAxisAngle);
                 r.TurretRotateX(xAxisAngle, angleFromZ);
             }
@@ -136,7 +138,6 @@ namespace GameEngine {
         }
 
         public void TurretRotateDirX (float angle) {
-            Console.WriteLine(angleFromZ);
             RotateDirY(-angleFromZ);
             RotateDirX(angle);
             RotateDirY(angleFromZ);

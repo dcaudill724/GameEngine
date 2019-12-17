@@ -24,7 +24,7 @@
         /// </summary>
         private void InitializeComponent () {
             this.CameraView = new System.Windows.Forms.PictureBox();
-            this.environmentControl = new GameEngine.EnvironmentControl();
+            this.MainEnvironmentControl = new GameEngine.EnvironmentControl();
             ((System.ComponentModel.ISupportInitialize)(this.CameraView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -35,46 +35,45 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CameraView.BackColor = System.Drawing.Color.Black;
             this.CameraView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.CameraView.Location = new System.Drawing.Point(0, 0);
+            this.CameraView.Location = new System.Drawing.Point(9, 9);
             this.CameraView.Margin = new System.Windows.Forms.Padding(0);
             this.CameraView.Name = "CameraView";
-            this.CameraView.Size = new System.Drawing.Size(639, 333);
+            this.CameraView.Size = new System.Drawing.Size(630, 324);
             this.CameraView.TabIndex = 0;
             this.CameraView.TabStop = false;
             this.CameraView.Click += new System.EventHandler(this.CameraView_Click);
             // 
-            // environmentControl
+            // MainEnvironmentControl
             // 
-            this.environmentControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.MainEnvironmentControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.environmentControl.AutoSize = true;
-            this.environmentControl.BackColor = System.Drawing.Color.Gray;
-            this.environmentControl.Location = new System.Drawing.Point(649, 0);
-            this.environmentControl.Margin = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.environmentControl.Name = "environmentControl";
-            this.environmentControl.Size = new System.Drawing.Size(185, 333);
-            this.environmentControl.TabIndex = 1;
+            this.MainEnvironmentControl.BackColor = System.Drawing.Color.DimGray;
+            this.MainEnvironmentControl.Location = new System.Drawing.Point(649, 9);
+            this.MainEnvironmentControl.Margin = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.MainEnvironmentControl.Name = "MainEnvironmentControl";
+            this.MainEnvironmentControl.Size = new System.Drawing.Size(185, 324);
+            this.MainEnvironmentControl.TabIndex = 1;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(843, 450);
-            this.Controls.Add(this.environmentControl);
+            this.Controls.Add(this.MainEnvironmentControl);
             this.Controls.Add(this.CameraView);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.CameraView)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.PictureBox CameraView;
-        private EnvironmentControl environmentControl;
+        private EnvironmentControl MainEnvironmentControl;
     }
 }
 

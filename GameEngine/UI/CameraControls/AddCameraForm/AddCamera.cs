@@ -8,6 +8,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace GameEngine {
     public partial class AddCamera : Form {
@@ -80,16 +81,23 @@ namespace GameEngine {
         private void AddCameraButton_Click (object sender, EventArgs e) {
             string cameraType = CameraListBox.SelectedItem.ToString();
             Camera c = null;
+
+            string name = NameTextBox.Text;
+            Vector3 position = new Vector3(float.Parse(XTextBox.Text), float.Parse(YTextBox.Text), float.Parse(ZTextBox.Text));
+            Vector3 direction = Vector3.Normalize(new Vector3(float.Parse(XTextBox2.Text), float.Parse(YTextBox2.Text), float.Parse(ZTextBox2.Text)));
+            float horizontalWidth = float.Parse(RadiansTextBox1.Text);
+            float verticalWidth = float.Parse(RadiansTextBox2.Text);
+            float sensitivity = float.Parse(SensitivityTextBox.Text);
+
             switch (cameraType) {
                 case "Ray Tracing":
-                    string name = NameTextBox.Text;
-                    Vector3 position = new Vector3(float.Parse(XTextBox.Text), float.Parse(YTextBox.Text), float.Parse(ZTextBox.Text));
-                    Vector3 direction = Vector3.Normalize(new Vector3(float.Parse(XTextBox2.Text), float.Parse(YTextBox2.Text), float.Parse(ZTextBox2.Text)));
-                    float horizontalWidth = float.Parse(RadiansTextBox1.Text);
-                    float verticalWidth = float.Parse(RadiansTextBox2.Text);
-                    float sensitivity = float.Parse(SensitivityTextBox.Text);
-                    //need to add resolution
-                    c = new RaytracingCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, 200);
+                    object[] fieldValues = new object[CameraFieldsFlowLayoutPanel.Controls.Count];
+
+                    for (int i = 0; i < fieldValues.Length; ++i) {
+                        fieldValues[i] = CameraFieldsFlowLayoutPanel.Controls[i].Controls["FieldValueTextBox"].Text;
+                    }
+
+                    c = new RaytracingCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, Convert.ToInt32(fieldValues[0]));
                     break;
             }
             if (c != null) {
@@ -99,10 +107,24 @@ namespace GameEngine {
                 MessageBox.Show("Invalid Camera Type", "Invalid", MessageBoxButtons.OK);
             }
         }
-        #endregion
 
         private void CameraListBox_SelectedIndexChanged (object sender, EventArgs e) {
-            
+            Camera temp = null;
+
+            switch (CameraListBox.SelectedItem) {
+                case "Ray Tracing":
+                    temp = new RaytracingCamera();
+                    break;
+            }
+
+            FieldInfo[] list = temp.GetType().GetFields();
+
+            for (int i = 0; i < list.GetLength(0) - 6; ++i) {
+                FieldDisplay fd = new FieldDisplay(list[i], temp, CameraFieldsFlowLayoutPanel);
+                CameraFieldsFlowLayoutPanel.Controls.Add(fd);
+            }
         }
+
+        #endregion
     }
 }

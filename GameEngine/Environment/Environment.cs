@@ -73,22 +73,15 @@ namespace GameEngine {
             activeCamera = c;
         }
 
-        public static void SelectCamera (int index) {
+        public static void SetActiveCamera (Camera c) {
+            activeCamera = c;
+        }
 
+        public static void SelectCamera (int index) {
             if (index != -1) {
                 activeCamera = Cameras[index];
             } else {
                 
-            }
-        }
-
-        public static void RemoveCameraAt(int index) {
-            Cameras.RemoveAt(index);
-            int nextCameraIndex = index > Cameras.Count - 1 ? Cameras.Count - 1 : index;
-            if (Cameras.Count == 0) {
-                activeCamera = null;
-            } else {
-                activeCamera = Cameras[nextCameraIndex];
             }
         }
     }

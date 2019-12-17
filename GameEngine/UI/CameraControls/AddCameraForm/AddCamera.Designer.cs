@@ -53,8 +53,11 @@
             this.NameTextBox = new System.Windows.Forms.TextBox();
             this.SensitivityLabel = new System.Windows.Forms.Label();
             this.SensitivityTextBox = new System.Windows.Forms.TextBox();
+            this.CameraFieldsGroupBox = new System.Windows.Forms.GroupBox();
+            this.CameraFieldsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.HFOVGroupBox.SuspendLayout();
             this.VFOVGroupBox.SuspendLayout();
+            this.CameraFieldsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // CameraListBox
@@ -344,11 +347,30 @@
             this.SensitivityTextBox.TabIndex = 31;
             this.SensitivityTextBox.Text = "1.0";
             // 
+            // CameraFieldsGroupBox
+            // 
+            this.CameraFieldsGroupBox.Controls.Add(this.CameraFieldsFlowLayoutPanel);
+            this.CameraFieldsGroupBox.Location = new System.Drawing.Point(418, 12);
+            this.CameraFieldsGroupBox.Name = "CameraFieldsGroupBox";
+            this.CameraFieldsGroupBox.Size = new System.Drawing.Size(238, 264);
+            this.CameraFieldsGroupBox.TabIndex = 32;
+            this.CameraFieldsGroupBox.TabStop = false;
+            this.CameraFieldsGroupBox.Text = "Camera Specific Fields";
+            // 
+            // CameraFieldsFlowLayoutPanel
+            // 
+            this.CameraFieldsFlowLayoutPanel.AutoScroll = true;
+            this.CameraFieldsFlowLayoutPanel.Location = new System.Drawing.Point(7, 19);
+            this.CameraFieldsFlowLayoutPanel.Name = "CameraFieldsFlowLayoutPanel";
+            this.CameraFieldsFlowLayoutPanel.Size = new System.Drawing.Size(225, 239);
+            this.CameraFieldsFlowLayoutPanel.TabIndex = 0;
+            // 
             // AddCamera
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(420, 285);
+            this.ClientSize = new System.Drawing.Size(670, 285);
+            this.Controls.Add(this.CameraFieldsGroupBox);
             this.Controls.Add(this.SensitivityTextBox);
             this.Controls.Add(this.SensitivityLabel);
             this.Controls.Add(this.NameTextBox);
@@ -377,6 +399,7 @@
             this.HFOVGroupBox.PerformLayout();
             this.VFOVGroupBox.ResumeLayout(false);
             this.VFOVGroupBox.PerformLayout();
+            this.CameraFieldsGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -414,5 +437,7 @@
         private System.Windows.Forms.TextBox NameTextBox;
         private System.Windows.Forms.Label SensitivityLabel;
         private System.Windows.Forms.TextBox SensitivityTextBox;
+        private System.Windows.Forms.GroupBox CameraFieldsGroupBox;
+        private System.Windows.Forms.FlowLayoutPanel CameraFieldsFlowLayoutPanel;
     }
 }
