@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GameEngine {
@@ -12,6 +8,7 @@ namespace GameEngine {
         /// </summary>
         [STAThread]
         static void Main () {
+            FrameCounter.Init();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Form1 mainForm = new Form1();

@@ -66,7 +66,8 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.CameraListBox.FormattingEnabled = true;
             this.CameraListBox.Items.AddRange(new object[] {
-            "Ray Tracing"});
+            "Ray Tracing",
+            "Projection"});
             this.CameraListBox.Location = new System.Drawing.Point(12, 12);
             this.CameraListBox.Name = "CameraListBox";
             this.CameraListBox.Size = new System.Drawing.Size(129, 264);

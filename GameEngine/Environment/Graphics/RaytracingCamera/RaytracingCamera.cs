@@ -6,9 +6,10 @@ using System.Threading;
 
 namespace GameEngine {
     class RaytracingCamera : Camera {
-        public readonly int Resolution;
-        private readonly List<Ray> RayList;
-        private float angleFromZ;
+        public int Resolution;
+        public int PyramidResolution;
+        public int ViewDistance;
+        private readonly RayPyramid[,] rayPyramids;
 
         public RaytracingCamera() {
             Name = "Raytracing Camera";
@@ -18,9 +19,12 @@ namespace GameEngine {
             VerticalFOV = 70 * ((float)Math.PI / 180);
             sensitivity = 1;
             Resolution = 100;
+            PyramidResolution = 10;
+            ViewDistance = 500;
+            AngleFromZ = (float)Math.PI / 2;
         }
 
-        public RaytracingCamera (string Name, Vector3 Position, Vector3 Direction, float viewWidth, float viewHeight, float sensitivity, int resolution) {
+        public RaytracingCamera (string Name, Vector3 Position, Vector3 Direction, float viewWidth, float viewHeight, float sensitivity, int resolution, int pyramidResolution, int viewDistance) {
             this.Name = Name;
             this.Position = Position;
             this.Direction = Direction;
@@ -28,11 +32,47 @@ namespace GameEngine {
             VerticalFOV = viewHeight;
             this.sensitivity = sensitivity;
             Resolution = resolution;
-            RayList = new List<Ray>();
+            PyramidResolution = pyramidResolution;
+            ViewDistance = viewDistance;
+            rayPyramids = new RayPyramid[pyramidResolution, pyramidResolution];
 
 
+            //Start at the top left of the field of view
             float startingHorizontalAngle = -viewWidth / 2;
             float startingVerticalAngle = -viewHeight / 2;
+
+            float pyramidHorizontalAngleIncrement = viewWidth / (pyramidResolution + 1);
+            float pyramidVerticalAngleIncrement = viewHeight / (pyramidResolution + 1);
+
+            //first we need to initialize all the ray pyramids
+            for (int i = 0; i < pyramidResolution; ++i) {
+                float verticalAngle = startingVerticalAngle + (pyramidVerticalAngleIncrement * i);
+                float nextVerticalAngle = startingVerticalAngle + (pyramidVerticalAngleIncrement * (i + 1));
+
+                for (int j = 0; j < pyramidResolution; ++j) {
+                    float horizontalAngle = startingHorizontalAngle + (pyramidHorizontalAngleIncrement * j);
+                    float nextHorizontalAngle = startingHorizontalAngle + (pyramidHorizontalAngleIncrement * (j + 1));
+
+                    Vector3 point1 = Vector3.Multiply(ViewDistance, Direction);
+                    point1 = VectorMath.RotateVector3Z(point1, verticalAngle);
+                    point1 = VectorMath.RotateVector3Y(point1, horizontalAngle);
+
+                    Vector3 point2 = Vector3.Multiply(ViewDistance, Direction);
+                    point2 = VectorMath.RotateVector3Z(point2, verticalAngle);
+                    point2 = VectorMath.RotateVector3Y(point2, nextHorizontalAngle);
+
+                    Vector3 point3 = Vector3.Multiply(ViewDistance, Direction);
+                    point3 = VectorMath.RotateVector3Z(point3, nextVerticalAngle);
+                    point3 = VectorMath.RotateVector3Y(point3, horizontalAngle);
+
+                    Vector3 point4 = Vector3.Multiply(ViewDistance, Direction);
+                    point4 = VectorMath.RotateVector3Z(point4, nextVerticalAngle);
+                    point4 = VectorMath.RotateVector3Y(point4, nextHorizontalAngle);
+
+                    rayPyramids[j, i] = new RayPyramid(Position, point1, point2, point3, point4);
+
+                }
+            }
 
             float horizontalAngleIncrement = viewWidth / resolution;
             float verticalAngleIncrement = viewHeight / resolution;
@@ -47,57 +87,84 @@ namespace GameEngine {
                     newRay.RotateZ(verticalAngle);
                     newRay.RotateY(horizontalAngle);
 
-                    RayList.Add(newRay);
+                    int rayPyramidHorizontalIndex = j / (resolution / pyramidResolution);
+                    int rayPyramidVerticalIndex = i / (resolution / pyramidResolution);
+
+                    rayPyramids[rayPyramidHorizontalIndex, rayPyramidVerticalIndex].RayList.Add(newRay);
                 }
             }
 
-            angleFromZ = (float)Math.PI/2;
+            AngleFromZ = (float)Math.PI/2;
+
 
             //at this point direction is (1, 0, 0);
             //must rotate the vectors to assume the new direction
-            float dirXAngle = (Direction.X) / (float)Math.Sqrt(Math.Pow(Direction.X, 2) + Math.Pow(Direction.Y, 2) + Math.Pow(Direction.Z, 2));
+            //float dirXAngle = (Direction.X) / (float)Math.Sqrt(Math.Pow(Direction.X, 2) + Math.Pow(Direction.Y, 2) + Math.Pow(Direction.Z, 2));
         }
+
+        #region Update Functions
 
         public override Bitmap GetFrame () {
             Bitmap frame = new Bitmap(Resolution, Resolution);
 
-            //Rays are placed in the list from top to bottom and each row left to right
-            for (int i = 0; i < RayList.Count; ++i) {
-                //i / resolution gets the row
-                //i % resolution gets the column
-                Ray temp = RayList[i];
-                frame.SetPixel(i % Resolution, i / Resolution, temp.RayColor);
+            int internalPyramidResolution = Resolution / PyramidResolution;
+
+            for (int i = 0; i < rayPyramids.GetLength(0); ++i) {
+                int startingFrameX = i * internalPyramidResolution;
+
+                for (int j = 0; j < rayPyramids.GetLength(1); ++j) {
+                    Color[] rayColors = rayPyramids[i, j].GetRayColors();
+                    int startingFrameY = j * internalPyramidResolution;
+
+                    for (int k = 0; k < rayColors.Length; ++k) {
+                        int frameX = startingFrameX + (k % internalPyramidResolution);
+                        int frameY = startingFrameY + (k / internalPyramidResolution);
+                        
+                        frame.SetPixel(frameX, frameY, rayColors[k]);
+                    }
+                }
             }
 
             return frame;
         }
 
-        public override void Update (SynchronizedCollection<EnvironmentObject> objects, int mouseXDif, int mouseYDif) {
+        public override void Update (List<EnvironmentObject> objects, int mouseXDif, int mouseYDif) {
             if (mouseXDif != 0 || mouseYDif != 0) {
                 updateDirection(mouseXDif, mouseYDif);
             }
-
-            castRays(RayList, objects, 0);
+            foreach (RayPyramid rp in rayPyramids) {
+                foreach (EnvironmentObject e in Environment.EnvironmentObjects) {
+                    if (GJKCollision.CheckCollision(rp, e)) {
+                        castRays(rp.RayList, objects);
+                    } else {
+                        rp.SetColor(Color.Black);
+                    }
+                }
+            }
         }
 
         private void updateDirection (int mouseXDif, int mouseYDif) {
             //how to multithread this and actually have it be fast
-            List<Thread> threads = new List<Thread>();
 
             float yAxisAngle = (mouseXDif / 100f) * sensitivity;
             float xAxisAngle = (mouseYDif / 100f) * -sensitivity;
-            RotateDirY(yAxisAngle);
-            TurretRotateDirX(xAxisAngle);
+            Direction = VectorMath.RotateVector3Y(Direction, yAxisAngle);
+            Direction = VectorMath.TurretRotateVector3X(Direction, xAxisAngle, AngleFromZ);
 
-            angleFromZ += xAxisAngle;
+            AngleFromZ += xAxisAngle;
 
-            foreach (Ray r in RayList) {
-                r.RotateY(yAxisAngle);
-                r.TurretRotateX(xAxisAngle, angleFromZ);
+            foreach (RayPyramid rp in rayPyramids) {
+                rp.RotateY(yAxisAngle);
+                rp.TurretRotateX(xAxisAngle, AngleFromZ);
+
+                foreach (Ray r in rp.RayList) {
+                    r.RotateY(yAxisAngle);
+                    r.TurretRotateX(xAxisAngle, AngleFromZ);
+                }
             }
         }
 
-        private void castRays (List<Ray> rays, SynchronizedCollection<EnvironmentObject> objects, int counter) {
+        private void castRays (List<Ray> rays, List<EnvironmentObject> objects) {
             foreach (EnvironmentObject e in objects) {
                 foreach (Ray r in rays) {
                     float minDist = float.PositiveInfinity;
@@ -116,31 +183,8 @@ namespace GameEngine {
                     }
                 }
             }
-            ++counter;
         }
 
-        public void RotateDirX (float angle) {
-            float y = (float)(Direction.Y * Math.Cos(angle) - Direction.Z * Math.Sin(angle));
-            float z = (float)(Direction.Y * Math.Sin(angle) + Direction.Z * Math.Cos(angle));
-            Direction = new Vector3(Direction.X, y, z);
-        }
-
-        public void RotateDirY (float angle) {
-            float x = (float)(Direction.X * Math.Cos(angle) + Direction.Z * Math.Sin(angle));
-            float z = (float)(-Direction.X * Math.Sin(angle) + Direction.Z * Math.Cos(angle));
-            Direction = new Vector3(x, Direction.Y, z);
-        }
-
-        public void RotateDirZ (float angle) {
-            float x = (float)(Direction.X * Math.Cos(angle) - Direction.Y * Math.Sin(angle));
-            float y = (float)(Direction.X * Math.Sin(angle) + Direction.Y * Math.Cos(angle));
-            Direction = new Vector3(x, y, Direction.Z);
-        }
-
-        public void TurretRotateDirX (float angle) {
-            RotateDirY(-angleFromZ);
-            RotateDirX(angle);
-            RotateDirY(angleFromZ);
-        }
+        #endregion
     }
 }

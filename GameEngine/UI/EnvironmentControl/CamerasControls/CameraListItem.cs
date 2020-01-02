@@ -38,10 +38,6 @@ namespace GameEngine {
             }
         }
 
-        private void CameraListItem_Load (object sender, EventArgs e) {
-            
-        }
-
         private void SetActive (object sender, EventArgs e) {
             Environment.SetActiveCamera(camera);
             CameraNameTextBox.BackColor = Color.White;

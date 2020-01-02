@@ -7,10 +7,6 @@ namespace GameEngine {
             InitializeComponent();
         }
 
-        private void NewObjectButton_Click (object sender, EventArgs e) {
-
-        }
-
         private void NewCameraButton_Click (object sender, EventArgs e) {
             Form addCamera = new AddCamera(this);
             addCamera.Show();
@@ -34,6 +30,16 @@ namespace GameEngine {
             } else {
                 Environment.SetActiveCamera(null);
             }
+        }
+
+        private void EnvironmentControl_Resize (object sender, EventArgs e) {
+            //CamerasGroupBox.Height = Convert.ToInt32(Parent.Height * 0.5);
+            //EnvironmentObjectsGroupBox.Height = Convert.ToInt32(Parent.Height * 0.5);
+        }
+
+        private void AddObjectButton_Click (object sender, EventArgs e) {
+            AddObject newAddObject = new AddObject();
+            newAddObject.Show();
         }
     }
 }

@@ -10,8 +10,9 @@ namespace GameEngine {
         public float sensitivity;
         public float HorizontalFOV;
         public float VerticalFOV;
+        public float AngleFromZ;
 
-        public abstract void Update (SynchronizedCollection<EnvironmentObject> objects, int mouseXDif, int mouseYDif);
+        public abstract void Update (List<EnvironmentObject> objects, int mouseXDif, int mouseYDif);
         public abstract Bitmap GetFrame ();
     }
 }

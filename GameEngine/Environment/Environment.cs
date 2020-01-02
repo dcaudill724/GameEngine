@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Numerics;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GameEngine {
@@ -14,7 +10,7 @@ namespace GameEngine {
         public static List<Camera> Cameras;
 
         private static GraphicsHandler graphicsHandler;
-        private static SynchronizedCollection<EnvironmentObject> environmentObjects;
+        public static List<EnvironmentObject> EnvironmentObjects;
         private static Camera activeCamera;
         private static bool cameraMode;
         private static Point mousePoint;
@@ -35,23 +31,28 @@ namespace GameEngine {
         }
 
         private static void initEnvironment() {
-            environmentObjects = new SynchronizedCollection<EnvironmentObject>();
-            environmentObjects.Add(new Sphere(100, 0, 0, 10, Color.Red));
+            EnvironmentObjects = new List<EnvironmentObject>();
+            EnvironmentObjects.Add(new Cube(new Vector3(0, 0, 1.3f), new Vector3(1, 1, 1), Color.White));
+            //EnvironmentObjects.Add(new Sphere(0, 0, 20, 10, Color.Red, 40));
         }
         #endregion
 
         private static void updateGraphics() {
             while (true) {
+                int frameCount = FrameCounter.GetFPS();
+                if (frameCount != -1) {
+                    Console.WriteLine(frameCount);
+                }
                 if (cameraMode) {
                     int x = Cursor.Position.X - mousePoint.X;
                     int y = Cursor.Position.Y - mousePoint.Y;
                     Cursor.Position = mousePoint;
                     if (activeCamera != null) {
-                        graphicsHandler.Update(activeCamera, environmentObjects, x, y);
+                        graphicsHandler.Update(activeCamera, EnvironmentObjects, x, y);
                     }
                 } else {
                     if (activeCamera != null) {
-                        graphicsHandler.Update(activeCamera, environmentObjects, 0, 0);
+                        graphicsHandler.Update(activeCamera, EnvironmentObjects, 0, 0);
                     }
                 }
             }

@@ -88,7 +88,6 @@
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "CameraListItem";
             this.Size = new System.Drawing.Size(179, 30);
-            this.Load += new System.EventHandler(this.CameraListItem_Load);
             this.Click += new System.EventHandler(this.SetActive);
             ((System.ComponentModel.ISupportInitialize)(this.DeleteButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SettingsButton)).EndInit();

@@ -55,7 +55,7 @@ namespace GameEngine {
 
                     Console.WriteLine(Convert.ToInt32(fieldValues[0]));
 
-                    RaytracingCamera temp = new RaytracingCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, Convert.ToInt32(fieldValues[0]));
+                    RaytracingCamera temp = new RaytracingCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, Convert.ToInt32(fieldValues[0]), Convert.ToInt32(fieldValues[1]), Convert.ToInt32(fieldValues[2]));
 
                     int index = Environment.Cameras.IndexOf(camera);
 

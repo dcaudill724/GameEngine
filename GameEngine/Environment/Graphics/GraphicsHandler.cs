@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GameEngine {
@@ -15,7 +10,7 @@ namespace GameEngine {
             cameraView = Application.OpenForms["Form1"].Controls["CameraView"] as PictureBox;
         }
 
-        public void Update(Camera activeCamera, SynchronizedCollection<EnvironmentObject> objects, int mouseXDif, int mouseYDif) {
+        public void Update(Camera activeCamera, List<EnvironmentObject> objects, int mouseXDif, int mouseYDif) {
             activeCamera.Update(objects, mouseXDif, mouseYDif);
             cameraView.BackgroundImage = resizeImageToScreen(activeCamera.GetFrame());
         }

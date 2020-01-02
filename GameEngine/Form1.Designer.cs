@@ -25,6 +25,7 @@
         private void InitializeComponent () {
             this.CameraView = new System.Windows.Forms.PictureBox();
             this.MainEnvironmentControl = new GameEngine.EnvironmentControl();
+            this.FpsLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CameraView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,12 +55,22 @@
             this.MainEnvironmentControl.Size = new System.Drawing.Size(185, 324);
             this.MainEnvironmentControl.TabIndex = 1;
             // 
+            // FpsLabel
+            // 
+            this.FpsLabel.AutoSize = true;
+            this.FpsLabel.Location = new System.Drawing.Point(13, 13);
+            this.FpsLabel.Name = "FpsLabel";
+            this.FpsLabel.Size = new System.Drawing.Size(35, 13);
+            this.FpsLabel.TabIndex = 2;
+            this.FpsLabel.Text = "label1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(843, 450);
+            this.Controls.Add(this.FpsLabel);
             this.Controls.Add(this.MainEnvironmentControl);
             this.Controls.Add(this.CameraView);
             this.Name = "Form1";
@@ -67,6 +78,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.CameraView)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -74,6 +86,7 @@
 
         private System.Windows.Forms.PictureBox CameraView;
         private EnvironmentControl MainEnvironmentControl;
+        private System.Windows.Forms.Label FpsLabel;
     }
 }
 

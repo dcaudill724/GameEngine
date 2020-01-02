@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
 
@@ -89,37 +82,63 @@ namespace GameEngine {
             float verticalWidth = float.Parse(RadiansTextBox2.Text);
             float sensitivity = float.Parse(SensitivityTextBox.Text);
 
+            object[] fieldValues = new object[CameraFieldsFlowLayoutPanel.Controls.Count];
+
+            for (int i = 0; i < fieldValues.Length; ++i) {
+                fieldValues[i] = CameraFieldsFlowLayoutPanel.Controls[i].Controls["FieldValueTextBox"].Text;
+            }
+
             switch (cameraType) {
                 case "Ray Tracing":
-                    object[] fieldValues = new object[CameraFieldsFlowLayoutPanel.Controls.Count];
-
-                    for (int i = 0; i < fieldValues.Length; ++i) {
-                        fieldValues[i] = CameraFieldsFlowLayoutPanel.Controls[i].Controls["FieldValueTextBox"].Text;
-                    }
-
-                    c = new RaytracingCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, Convert.ToInt32(fieldValues[0]));
+                    c = new RaytracingCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, Convert.ToInt32(fieldValues[0]), Convert.ToInt32(fieldValues[1]), Convert.ToInt32(fieldValues[2]));
+                    break;
+                case "Projection":
+                    c = new ProjectionCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, Convert.ToInt32(fieldValues[0]), Convert.ToInt32(fieldValues[1]));
                     break;
             }
             if (c != null) {
                 environmentControl.AddCamera(c);
                 Close();
             } else {
+                Console.WriteLine(cameraType);
                 MessageBox.Show("Invalid Camera Type", "Invalid", MessageBoxButtons.OK);
             }
         }
 
         private void CameraListBox_SelectedIndexChanged (object sender, EventArgs e) {
+            CameraFieldsFlowLayoutPanel.Controls.Clear();
+
             Camera temp = null;
 
             switch (CameraListBox.SelectedItem) {
                 case "Ray Tracing":
                     temp = new RaytracingCamera();
                     break;
+                case "Projection":
+                    temp = new ProjectionCamera();
+                    break;
             }
 
             FieldInfo[] list = temp.GetType().GetFields();
 
-            for (int i = 0; i < list.GetLength(0) - 6; ++i) {
+            NameTextBox.Text = Convert.ToString(list[list.Length - 7].GetValue(temp));
+
+            Vector3 tempPos = (Vector3)list[list.Length - 6].GetValue(temp);
+            XTextBox.Text = Convert.ToString(tempPos.X);
+            YTextBox.Text = Convert.ToString(tempPos.Y);
+            ZTextBox.Text = Convert.ToString(tempPos.Z);
+
+            Vector3 tempDir = (Vector3)list[list.Length - 5].GetValue(temp);
+            XTextBox2.Text = Convert.ToString(tempDir.X);
+            YTextBox2.Text = Convert.ToString(tempDir.Y);
+            ZTextBox2.Text = Convert.ToString(tempDir.Z);
+
+            SensitivityTextBox.Text = Convert.ToString(list[list.Length - 4].GetValue(temp));
+
+            RadiansTextBox1.Text = Convert.ToString(list[list.Length - 3].GetValue(temp));
+            RadiansTextBox2.Text = Convert.ToString(list[list.Length - 2].GetValue(temp));
+
+            for (int i = 0; i < list.Length - 7; ++i) {
                 FieldDisplay fd = new FieldDisplay(list[i], temp, CameraFieldsFlowLayoutPanel);
                 CameraFieldsFlowLayoutPanel.Controls.Add(fd);
             }
