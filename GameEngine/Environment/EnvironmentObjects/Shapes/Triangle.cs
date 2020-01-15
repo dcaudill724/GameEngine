@@ -24,5 +24,9 @@ namespace GameEngine {
         private void generateNormal() {
             Normal = Vector3.Cross(Points[1] - Points[0], Points[2] - Points[0]);
         }
+        
+        public Triangle Copy() {
+            return new Triangle(Points[0], Points[1], Points[2]);
+        }
     }
 }

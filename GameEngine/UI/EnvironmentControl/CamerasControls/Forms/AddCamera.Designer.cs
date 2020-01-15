@@ -55,30 +55,34 @@
             this.SensitivityTextBox = new System.Windows.Forms.TextBox();
             this.CameraFieldsGroupBox = new System.Windows.Forms.GroupBox();
             this.CameraFieldsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.ResolutionGroupBox = new System.Windows.Forms.GroupBox();
+            this.HorizontalResolutionTextBox = new System.Windows.Forms.TextBox();
+            this.HorizontalResolutionLabel = new System.Windows.Forms.Label();
+            this.VerticalResolutionTextBox = new System.Windows.Forms.TextBox();
+            this.VerticalResolutionLabel = new System.Windows.Forms.Label();
             this.HFOVGroupBox.SuspendLayout();
             this.VFOVGroupBox.SuspendLayout();
             this.CameraFieldsGroupBox.SuspendLayout();
+            this.ResolutionGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // CameraListBox
             // 
-            this.CameraListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.CameraListBox.FormattingEnabled = true;
             this.CameraListBox.Items.AddRange(new object[] {
             "Ray Tracing",
             "Projection"});
             this.CameraListBox.Location = new System.Drawing.Point(12, 12);
             this.CameraListBox.Name = "CameraListBox";
-            this.CameraListBox.Size = new System.Drawing.Size(129, 264);
+            this.CameraListBox.Size = new System.Drawing.Size(129, 329);
             this.CameraListBox.TabIndex = 0;
             this.CameraListBox.SelectedIndexChanged += new System.EventHandler(this.CameraListBox_SelectedIndexChanged);
             // 
             // AddCameraButton
             // 
-            this.AddCameraButton.Location = new System.Drawing.Point(148, 228);
+            this.AddCameraButton.Location = new System.Drawing.Point(148, 284);
             this.AddCameraButton.Name = "AddCameraButton";
-            this.AddCameraButton.Size = new System.Drawing.Size(264, 48);
+            this.AddCameraButton.Size = new System.Drawing.Size(264, 57);
             this.AddCameraButton.TabIndex = 1;
             this.AddCameraButton.Text = "Add Camera";
             this.AddCameraButton.UseVisualStyleBackColor = true;
@@ -353,7 +357,7 @@
             this.CameraFieldsGroupBox.Controls.Add(this.CameraFieldsFlowLayoutPanel);
             this.CameraFieldsGroupBox.Location = new System.Drawing.Point(418, 12);
             this.CameraFieldsGroupBox.Name = "CameraFieldsGroupBox";
-            this.CameraFieldsGroupBox.Size = new System.Drawing.Size(238, 264);
+            this.CameraFieldsGroupBox.Size = new System.Drawing.Size(238, 329);
             this.CameraFieldsGroupBox.TabIndex = 32;
             this.CameraFieldsGroupBox.TabStop = false;
             this.CameraFieldsGroupBox.Text = "Camera Specific Fields";
@@ -363,14 +367,64 @@
             this.CameraFieldsFlowLayoutPanel.AutoScroll = true;
             this.CameraFieldsFlowLayoutPanel.Location = new System.Drawing.Point(7, 19);
             this.CameraFieldsFlowLayoutPanel.Name = "CameraFieldsFlowLayoutPanel";
-            this.CameraFieldsFlowLayoutPanel.Size = new System.Drawing.Size(225, 239);
+            this.CameraFieldsFlowLayoutPanel.Size = new System.Drawing.Size(225, 304);
             this.CameraFieldsFlowLayoutPanel.TabIndex = 0;
+            // 
+            // ResolutionGroupBox
+            // 
+            this.ResolutionGroupBox.Controls.Add(this.HorizontalResolutionTextBox);
+            this.ResolutionGroupBox.Controls.Add(this.HorizontalResolutionLabel);
+            this.ResolutionGroupBox.Controls.Add(this.VerticalResolutionTextBox);
+            this.ResolutionGroupBox.Controls.Add(this.VerticalResolutionLabel);
+            this.ResolutionGroupBox.Location = new System.Drawing.Point(149, 228);
+            this.ResolutionGroupBox.Name = "ResolutionGroupBox";
+            this.ResolutionGroupBox.Size = new System.Drawing.Size(264, 50);
+            this.ResolutionGroupBox.TabIndex = 33;
+            this.ResolutionGroupBox.TabStop = false;
+            this.ResolutionGroupBox.Text = "Resolution";
+            // 
+            // HorizontalResolutionTextBox
+            // 
+            this.HorizontalResolutionTextBox.Location = new System.Drawing.Point(69, 19);
+            this.HorizontalResolutionTextBox.Name = "HorizontalResolutionTextBox";
+            this.HorizontalResolutionTextBox.Size = new System.Drawing.Size(63, 20);
+            this.HorizontalResolutionTextBox.TabIndex = 24;
+            this.HorizontalResolutionTextBox.Text = "100";
+            // 
+            // HorizontalResolutionLabel
+            // 
+            this.HorizontalResolutionLabel.AutoSize = true;
+            this.HorizontalResolutionLabel.Location = new System.Drawing.Point(9, 22);
+            this.HorizontalResolutionLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.HorizontalResolutionLabel.Name = "HorizontalResolutionLabel";
+            this.HorizontalResolutionLabel.Size = new System.Drawing.Size(57, 13);
+            this.HorizontalResolutionLabel.TabIndex = 22;
+            this.HorizontalResolutionLabel.Text = "Horizontal:";
+            // 
+            // VerticalResolutionTextBox
+            // 
+            this.VerticalResolutionTextBox.Location = new System.Drawing.Point(183, 19);
+            this.VerticalResolutionTextBox.Name = "VerticalResolutionTextBox";
+            this.VerticalResolutionTextBox.Size = new System.Drawing.Size(74, 20);
+            this.VerticalResolutionTextBox.TabIndex = 25;
+            this.VerticalResolutionTextBox.Text = "100";
+            // 
+            // VerticalResolutionLabel
+            // 
+            this.VerticalResolutionLabel.AutoSize = true;
+            this.VerticalResolutionLabel.Location = new System.Drawing.Point(135, 22);
+            this.VerticalResolutionLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.VerticalResolutionLabel.Name = "VerticalResolutionLabel";
+            this.VerticalResolutionLabel.Size = new System.Drawing.Size(45, 13);
+            this.VerticalResolutionLabel.TabIndex = 23;
+            this.VerticalResolutionLabel.Text = "Vertical:";
             // 
             // AddCamera
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(670, 285);
+            this.ClientSize = new System.Drawing.Size(670, 351);
+            this.Controls.Add(this.ResolutionGroupBox);
             this.Controls.Add(this.CameraFieldsGroupBox);
             this.Controls.Add(this.SensitivityTextBox);
             this.Controls.Add(this.SensitivityLabel);
@@ -401,6 +455,8 @@
             this.VFOVGroupBox.ResumeLayout(false);
             this.VFOVGroupBox.PerformLayout();
             this.CameraFieldsGroupBox.ResumeLayout(false);
+            this.ResolutionGroupBox.ResumeLayout(false);
+            this.ResolutionGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -440,5 +496,10 @@
         private System.Windows.Forms.TextBox SensitivityTextBox;
         private System.Windows.Forms.GroupBox CameraFieldsGroupBox;
         private System.Windows.Forms.FlowLayoutPanel CameraFieldsFlowLayoutPanel;
+        private System.Windows.Forms.GroupBox ResolutionGroupBox;
+        private System.Windows.Forms.TextBox HorizontalResolutionTextBox;
+        private System.Windows.Forms.Label HorizontalResolutionLabel;
+        private System.Windows.Forms.TextBox VerticalResolutionTextBox;
+        private System.Windows.Forms.Label VerticalResolutionLabel;
     }
 }

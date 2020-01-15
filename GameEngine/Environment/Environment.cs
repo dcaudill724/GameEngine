@@ -7,16 +7,17 @@ using System.Windows.Forms;
 
 namespace GameEngine {
     static class Environment {
+        public static int FPS;
         public static List<Camera> Cameras;
+        public static List<EnvironmentObject> EnvironmentObjects;
+        public static Camera ActiveCamera;
 
         private static GraphicsHandler graphicsHandler;
-        public static List<EnvironmentObject> EnvironmentObjects;
-        private static Camera activeCamera;
         private static bool cameraMode;
         private static Point mousePoint;
-        
 
-        public static void Start() {
+
+        public static void Start () {
             initGraphics();
             initEnvironment();
             Thread graphicsThread = new Thread(new ThreadStart(updateGraphics));
@@ -32,8 +33,8 @@ namespace GameEngine {
 
         private static void initEnvironment() {
             EnvironmentObjects = new List<EnvironmentObject>();
-            EnvironmentObjects.Add(new Cube(new Vector3(0, 0, 1.3f), new Vector3(1, 1, 1), Color.White));
-            //EnvironmentObjects.Add(new Sphere(0, 0, 20, 10, Color.Red, 40));
+            EnvironmentObjects.Add(new Cube(new Vector3(10, 0, 0), new Vector3(3, 3, 3), Color.White));
+            //EnvironmentObjects.Add(new Sphere(20, 0, 0, 5, Color.Red, 5));
         }
         #endregion
 
@@ -41,18 +42,18 @@ namespace GameEngine {
             while (true) {
                 int frameCount = FrameCounter.GetFPS();
                 if (frameCount != -1) {
-                    Console.WriteLine(frameCount);
+                    FPS = frameCount;
                 }
                 if (cameraMode) {
                     int x = Cursor.Position.X - mousePoint.X;
                     int y = Cursor.Position.Y - mousePoint.Y;
                     Cursor.Position = mousePoint;
-                    if (activeCamera != null) {
-                        graphicsHandler.Update(activeCamera, EnvironmentObjects, x, y);
+                    if (ActiveCamera != null) {
+                        graphicsHandler.Update(ActiveCamera, EnvironmentObjects, x, y);
                     }
                 } else {
-                    if (activeCamera != null) {
-                        graphicsHandler.Update(activeCamera, EnvironmentObjects, 0, 0);
+                    if (ActiveCamera != null) {
+                        graphicsHandler.Update(ActiveCamera, EnvironmentObjects, 0, 0);
                     }
                 }
             }
@@ -68,21 +69,12 @@ namespace GameEngine {
             Cursor.Show();
             cameraMode = false;
         }
-        
-        public static void AddCamera(Camera c) {
-            Cameras.Add(c);
-            activeCamera = c;
-        }
-
-        public static void SetActiveCamera (Camera c) {
-            activeCamera = c;
-        }
 
         public static void SelectCamera (int index) {
             if (index != -1) {
-                activeCamera = Cameras[index];
+                ActiveCamera = Cameras[index];
             } else {
-                
+                ActiveCamera = null;
             }
         }
     }

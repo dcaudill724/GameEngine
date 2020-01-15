@@ -39,7 +39,7 @@ namespace GameEngine {
         }
 
         private void SetActive (object sender, EventArgs e) {
-            Environment.SetActiveCamera(camera);
+            Environment.ActiveCamera = camera;
             CameraNameTextBox.BackColor = Color.White;
             BackColor = Color.White;
 
@@ -48,6 +48,8 @@ namespace GameEngine {
                     cli.SetNotActive();
                 }
             }
+
+            (Parent.Parent.Parent.Parent as EnvironmentControl).SetCameraViewSize(camera);
         }
 
         public void SetActive() {
@@ -71,6 +73,7 @@ namespace GameEngine {
 
         private void DeleteButton_Click (object sender, EventArgs e) {
             Environment.Cameras.Remove(camera);
+            camera.Dispose();
             Parent.Controls.Remove(this);
         }
     }

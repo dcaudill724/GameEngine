@@ -23,46 +23,74 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent () {
-            this.CameraView = new System.Windows.Forms.PictureBox();
+            this.CameraViewPictureBox = new System.Windows.Forms.PictureBox();
+            this.CameraViewPanel = new System.Windows.Forms.Panel();
+            this.MenuStrip = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainEnvironmentControl = new GameEngine.EnvironmentControl();
-            this.FpsLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.CameraView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CameraViewPictureBox)).BeginInit();
+            this.CameraViewPanel.SuspendLayout();
+            this.MenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // CameraView
+            // CameraViewPictureBox
             // 
-            this.CameraView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.CameraViewPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CameraView.BackColor = System.Drawing.Color.Black;
-            this.CameraView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.CameraView.Location = new System.Drawing.Point(9, 9);
-            this.CameraView.Margin = new System.Windows.Forms.Padding(0);
-            this.CameraView.Name = "CameraView";
-            this.CameraView.Size = new System.Drawing.Size(630, 324);
-            this.CameraView.TabIndex = 0;
-            this.CameraView.TabStop = false;
-            this.CameraView.Click += new System.EventHandler(this.CameraView_Click);
+            this.CameraViewPictureBox.BackColor = System.Drawing.Color.Black;
+            this.CameraViewPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.CameraViewPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CameraViewPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.CameraViewPictureBox.Margin = new System.Windows.Forms.Padding(0);
+            this.CameraViewPictureBox.Name = "CameraViewPictureBox";
+            this.CameraViewPictureBox.Size = new System.Drawing.Size(632, 321);
+            this.CameraViewPictureBox.TabIndex = 0;
+            this.CameraViewPictureBox.TabStop = false;
+            this.CameraViewPictureBox.BackgroundImageChanged += new System.EventHandler(this.CameraViewPictureBox_BackgroundImageChanged);
+            this.CameraViewPictureBox.Click += new System.EventHandler(this.CameraView_Click);
+            // 
+            // CameraViewPanel
+            // 
+            this.CameraViewPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CameraViewPanel.BackColor = System.Drawing.Color.DimGray;
+            this.CameraViewPanel.Controls.Add(this.CameraViewPictureBox);
+            this.CameraViewPanel.Location = new System.Drawing.Point(9, 29);
+            this.CameraViewPanel.Margin = new System.Windows.Forms.Padding(0, 5, 3, 3);
+            this.CameraViewPanel.Name = "CameraViewPanel";
+            this.CameraViewPanel.Size = new System.Drawing.Size(632, 321);
+            this.CameraViewPanel.TabIndex = 3;
+            this.CameraViewPanel.SizeChanged += new System.EventHandler(this.CameraViewPanel_SizeChanged);
+            // 
+            // MenuStrip
+            // 
+            this.MenuStrip.BackColor = System.Drawing.Color.DimGray;
+            this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.MenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.MenuStrip.Name = "MenuStrip";
+            this.MenuStrip.Size = new System.Drawing.Size(843, 24);
+            this.MenuStrip.TabIndex = 4;
+            this.MenuStrip.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
             // 
             // MainEnvironmentControl
             // 
             this.MainEnvironmentControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MainEnvironmentControl.BackColor = System.Drawing.Color.DimGray;
-            this.MainEnvironmentControl.Location = new System.Drawing.Point(649, 9);
-            this.MainEnvironmentControl.Margin = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.MainEnvironmentControl.Location = new System.Drawing.Point(649, 29);
+            this.MainEnvironmentControl.Margin = new System.Windows.Forms.Padding(5, 5, 0, 0);
             this.MainEnvironmentControl.Name = "MainEnvironmentControl";
             this.MainEnvironmentControl.Size = new System.Drawing.Size(185, 324);
             this.MainEnvironmentControl.TabIndex = 1;
-            // 
-            // FpsLabel
-            // 
-            this.FpsLabel.AutoSize = true;
-            this.FpsLabel.Location = new System.Drawing.Point(13, 13);
-            this.FpsLabel.Name = "FpsLabel";
-            this.FpsLabel.Size = new System.Drawing.Size(35, 13);
-            this.FpsLabel.TabIndex = 2;
-            this.FpsLabel.Text = "label1";
             // 
             // Form1
             // 
@@ -70,13 +98,17 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(843, 450);
-            this.Controls.Add(this.FpsLabel);
+            this.Controls.Add(this.CameraViewPanel);
             this.Controls.Add(this.MainEnvironmentControl);
-            this.Controls.Add(this.CameraView);
+            this.Controls.Add(this.MenuStrip);
+            this.MainMenuStrip = this.MenuStrip;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.CameraView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CameraViewPictureBox)).EndInit();
+            this.CameraViewPanel.ResumeLayout(false);
+            this.MenuStrip.ResumeLayout(false);
+            this.MenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -84,9 +116,11 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox CameraView;
+        private System.Windows.Forms.PictureBox CameraViewPictureBox;
         private EnvironmentControl MainEnvironmentControl;
-        private System.Windows.Forms.Label FpsLabel;
+        private System.Windows.Forms.Panel CameraViewPanel;
+        private System.Windows.Forms.MenuStrip MenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
     }
 }
 

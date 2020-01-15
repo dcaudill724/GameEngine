@@ -4,19 +4,18 @@ using System.Windows.Forms;
 
 namespace GameEngine {
     class GraphicsHandler {
-        private PictureBox cameraView;
+        public Bitmap Frame;
 
         public GraphicsHandler () {
-            cameraView = Application.OpenForms["Form1"].Controls["CameraView"] as PictureBox;
         }
 
         public void Update(Camera activeCamera, List<EnvironmentObject> objects, int mouseXDif, int mouseYDif) {
             activeCamera.Update(objects, mouseXDif, mouseYDif);
-            cameraView.BackgroundImage = resizeImageToScreen(activeCamera.GetFrame());
-        }
-
-        private Bitmap resizeImageToScreen(Bitmap image) {
-            return new Bitmap(image, new Size(cameraView.Width, cameraView.Height));
+            if (Frame != null) {
+                Frame.Dispose();
+            }
+            Frame = activeCamera.GetFrame();
+            //cameraView.Refresh();
         }
     }
 }

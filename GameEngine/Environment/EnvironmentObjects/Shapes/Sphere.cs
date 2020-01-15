@@ -58,7 +58,7 @@ namespace GameEngine {
                     for (int k = 0; k < resolution; k++) { //horizontal
                         Vector3 tempHorizontalPoint = k * horizontalIncrement;
 
-                        newFacePoints[k, j] = Vector3.Normalize(faces[i, 0] + tempVerticalPoint + tempHorizontalPoint) * radius;
+                        newFacePoints[k, j] = (Vector3.Normalize(faces[i, 0] + tempVerticalPoint + tempHorizontalPoint) * radius) + Position;
                     }
                 }
             }

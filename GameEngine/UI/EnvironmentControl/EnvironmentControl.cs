@@ -13,7 +13,7 @@ namespace GameEngine {
         }
 
         public void AddCamera(Camera c) {
-            Environment.AddCamera(c);
+            Environment.Cameras.Add(c);
             CameraListItem newCamera = new CameraListItem(c, CameraListFlowPanel);
             CameraListFlowPanel.Controls.Add(newCamera);
             newCamera.SetActive();
@@ -28,7 +28,7 @@ namespace GameEngine {
             if (CameraListFlowPanel.Controls.Count > 0) {
                 (CameraListFlowPanel.Controls[0] as CameraListItem).SetActive();
             } else {
-                Environment.SetActiveCamera(null);
+                Environment.ActiveCamera = null;
             }
         }
 
@@ -40,6 +40,10 @@ namespace GameEngine {
         private void AddObjectButton_Click (object sender, EventArgs e) {
             AddObject newAddObject = new AddObject();
             newAddObject.Show();
+        }
+
+        public void SetCameraViewSize(Camera camera) {
+            (Parent as Form1).SetCameraViewSize(camera);
         }
     }
 }

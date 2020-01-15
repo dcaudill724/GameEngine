@@ -35,7 +35,7 @@ namespace GameEngine {
 
         #region Matrix Functions
 
-        public static Vector3 MultiplyProjectionMatrix(Vector3 vec, float[,] matrix) {
+        public static Vector3 MultiplyProjectionMatrix (Vector3 vec, float[,] matrix) {
             Vector3 temp = new Vector3(0, 0, 0);
             temp.X = vec.X * matrix[0, 0] + vec.Y * matrix[1, 0] + vec.Z * matrix[2, 0] + matrix[3, 0];
             temp.Y = vec.X * matrix[0, 1] + vec.Y * matrix[1, 1] + vec.Z * matrix[2, 1] + matrix[3, 1];

@@ -55,17 +55,17 @@ namespace GameEngine {
 
                     Console.WriteLine(Convert.ToInt32(fieldValues[0]));
 
-                    RaytracingCamera temp = new RaytracingCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, Convert.ToInt32(fieldValues[0]), Convert.ToInt32(fieldValues[1]), Convert.ToInt32(fieldValues[2]));
+                    //RaytracingCamera temp = new RaytracingCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, Convert.ToInt32(fieldValues[0]), Convert.ToInt32(fieldValues[1]), Convert.ToInt32(fieldValues[2]));
 
                     int index = Environment.Cameras.IndexOf(camera);
 
-                    Environment.Cameras[index] = temp;
-                    parent.UpdateCamera(temp);
+                    //Environment.Cameras[index] = temp;
+                    //parent.UpdateCamera(temp);
 
-                    camera = temp;
+                    //camera = temp;
                     break;
             }
-            Environment.SetActiveCamera(camera);
+            Environment.ActiveCamera = camera;
             Close();
         }
     }

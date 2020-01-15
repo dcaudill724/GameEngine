@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Numerics;
+using System.Threading;
 
 namespace GameEngine {
     class ProjectionCamera : Camera {
-        public int HorizontalRes;
-        public int VerticalRes;
-        private float[,] projectionMatrix;
-        private Bitmap frame;
+        private Matrix4x4 projectionMatrix;
+        private Thread[] frameCleanerThreads;
+        private List<Frame> frames;
 
         public ProjectionCamera () {
             Name = "Projection Camera";
@@ -18,22 +19,8 @@ namespace GameEngine {
             VerticalFOV = 70 * ((float)Math.PI / 180);
             sensitivity = 1;
             AngleFromZ = (float)Math.PI / 2;
-            VerticalRes = 500;
-            HorizontalRes = 500;
-
-            float fNear = 0.1f;
-            float fFar = 1000.0f;
-            float fAspectRatio = VerticalRes / HorizontalRes;
-            float fHFovRad = 1.0f / (float)Math.Tan(HorizontalFOV);
-            float fVFovRad = 1.0f / (float)Math.Tan(VerticalFOV);
-
-            projectionMatrix = new float[4, 4];
-            projectionMatrix[0, 0] = fAspectRatio * fHFovRad;
-            projectionMatrix[1, 1] = fVFovRad;
-            projectionMatrix[2, 2] = fFar / (fFar - fNear);
-            projectionMatrix[3, 2] = (-fFar * fNear) / (fFar - fNear);
-            projectionMatrix[2, 3] = 1.0f;
-            projectionMatrix[3, 3] = 0.0f;
+            FrameHeight = 1080;
+            FrameWidth = 1920;
         }
 
         public ProjectionCamera (string Name, Vector3 Position, Vector3 Direction, float viewWidth, float viewHeight, float sensitivity, int horizontalRes, int verticalRes) {
@@ -44,74 +31,98 @@ namespace GameEngine {
             VerticalFOV = viewHeight;
             this.sensitivity = sensitivity;
             AngleFromZ = (float)Math.PI / 2;
-            this.HorizontalRes = horizontalRes;
-            this.VerticalRes = verticalRes;
+            FrameWidth = horizontalRes;
+            FrameHeight = verticalRes;
 
-            float fNear = 0.1f;
-            float fFar = 1000.0f;
-            float fAspectRatio = (float)VerticalRes / (float)HorizontalRes;
-            float fFovRad = 1.0f / (float)Math.Tan(Math.PI / 4);
-            //float fHFovRad = 1.0f / (float)Math.Tan(HorizontalFOV);
-            //float fVFovRad = 1.0f / (float)Math.Tan(VerticalFOV);
+            projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView((float)(Math.PI / 2), FrameWidth / FrameHeight, 0.1f, 1000.0f);
 
-            projectionMatrix = new float[4, 4];
-            projectionMatrix[0, 0] = fAspectRatio * fFovRad;
-            projectionMatrix[1, 1] = fFovRad;
-            projectionMatrix[2, 2] = fFar / (fFar - fNear);
-            projectionMatrix[3, 2] = (-fFar * fNear) / (fFar - fNear);
-            projectionMatrix[2, 3] = 1.0f;
-            projectionMatrix[3, 3] = 0.0f;
+            frames = new List<Frame>();
+            for (int i = 0; i < 40; ++i) {
+                frames.Add(new Frame(FrameWidth, FrameHeight));
+            }
 
-            frame = new Bitmap(HorizontalRes, VerticalRes);
+            frameCleanerThreads = new Thread[] {
+                new Thread(() => cleanFrames())
+            };
+                
+            foreach (Thread t in frameCleanerThreads) {
+                t.Start();
+            }
         }
 
-        public override Bitmap GetFrame () {
-            for (int i = 0; i < frame.Width; ++i) {
-                for (int j = 0; j < frame.Height; ++j) {
-                    frame.SetPixel(i, j, Color.Black);
-                }
-            }
+        public unsafe override Bitmap GetFrame () {
+            
+            Frame frame = GetCleanFrame();
+            
+            /*Matrix4x4 viewMatrix = Matrix4x4.CreateLookAt(Position, Position + Direction, new Vector3(0, 1, 0));
 
             foreach (EnvironmentObject e in Environment.EnvironmentObjects) {
-                List<Triangle> triangles = e.Mesh.Triangles;;
+                List<Triangle> triangles = e.Mesh.Triangles;
                 for (int i = 0; i < triangles.Count; ++i) {
                     Vector3[] projectedPoints = new Vector3[3];
+                    Triangle t = triangles[i];
+
                     for (int j = 0; j < 3; ++j) {
-                        Vector3 tempPoint = triangles[i].Points[j];
+                        Vector3 point = Vector3.Transform(t.Points[j], viewMatrix);
 
-                        tempPoint.Z += e.Position.Z;
-
-                        tempPoint = VectorMath.MultiplyProjectionMatrix(tempPoint, projectionMatrix);
-
-                        tempPoint.X += 1.0f;
-                        tempPoint.Y += 1.0f;
-                        tempPoint.X *= 0.5f * HorizontalRes;
-                        tempPoint.Y *= 0.5f * VerticalRes;
-                        
-                        projectedPoints[j] = tempPoint;
+                        projectedPoints[j] = ConvertToScreenSpace(point, FrameWidth, FrameHeight);
                     }
-                    BitmapDrawing.DrawTriangle(frame, projectedPoints[0], projectedPoints[1], projectedPoints[2], Color.White, 2);
-                }
-            }
 
-            return frame;
+                   //BitmapDrawing.DrawTriangle(graphics, projectedPoints, Color.White, 2);
+                }
+            }*/
+
+            return frame.Image;
+        }
+
+        private Vector3 ConvertToScreenSpace(Vector3 vec, float frameWidth, float frameHeight) {
+            Vector3 newVec = Vector3.Transform(vec, projectionMatrix);
+            float w = vec.X * projectionMatrix.M14 + vec.Y * projectionMatrix.M24 + vec.Z * projectionMatrix.M34 + projectionMatrix.M44;
+            newVec /= w;
+            newVec.X += 1.0f;
+            newVec.Y += 1.0f;
+            newVec.X *= (0.5f * frameWidth);
+            newVec.Y *= (0.5f * frameHeight);
+            return newVec;
         }
 
         public override void Update (List<EnvironmentObject> objects, int mouseXDif, int mouseYDif) {
             if (mouseXDif != 0 || mouseYDif != 0) {
-                updateDirection(mouseXDif, mouseYDif);
+                updateDirection(-mouseXDif, mouseYDif);
             }
         }
 
         private void updateDirection (int mouseXDif, int mouseYDif) {
-            //how to multithread this and actually have it be fast
-            
             float yAxisAngle = (mouseXDif / 100f) * sensitivity;
             float xAxisAngle = (mouseYDif / 100f) * -sensitivity;
             Direction = VectorMath.RotateVector3Y(Direction, yAxisAngle);
             Direction = VectorMath.TurretRotateVector3X(Direction, xAxisAngle, AngleFromZ);
-
             AngleFromZ += xAxisAngle;
+        }
+
+        private Frame GetCleanFrame() {
+            while (true) {
+                for (int i = 0; i < frames.Count; ++i) {
+                    if (frames[i].Clean) {
+                        frames[i].Clean = false;
+                        return frames[i];
+                    }
+                }
+            }
+        }
+
+        private Bitmap cleanFrames() {
+            while(true) {
+                for (int i = 0; i < frames.Count; ++i) {
+                    frames[i].CleanImage();
+                }
+            }
+        }
+
+        public override void Dispose () {
+            foreach (Thread t in frameCleanerThreads) {
+                t.Abort();
+            }
         }
     }
 }

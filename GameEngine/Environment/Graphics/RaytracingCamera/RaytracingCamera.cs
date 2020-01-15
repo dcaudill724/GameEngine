@@ -6,7 +6,6 @@ using System.Threading;
 
 namespace GameEngine {
     class RaytracingCamera : Camera {
-        public int Resolution;
         public int PyramidResolution;
         public int ViewDistance;
         private readonly RayPyramid[,] rayPyramids;
@@ -18,20 +17,22 @@ namespace GameEngine {
             HorizontalFOV = 70 * ((float)Math.PI / 180);
             VerticalFOV = 70 * ((float)Math.PI / 180);
             sensitivity = 1;
-            Resolution = 100;
+            FrameWidth = 100;
+            FrameHeight = 100;
             PyramidResolution = 10;
             ViewDistance = 500;
             AngleFromZ = (float)Math.PI / 2;
         }
 
-        public RaytracingCamera (string Name, Vector3 Position, Vector3 Direction, float viewWidth, float viewHeight, float sensitivity, int resolution, int pyramidResolution, int viewDistance) {
+        public RaytracingCamera (string Name, Vector3 Position, Vector3 Direction, float viewWidth, float viewHeight, float sensitivity, int horizontalResolution, int verticalResolution, int pyramidResolution, int viewDistance) {
             this.Name = Name;
             this.Position = Position;
             this.Direction = Direction;
             HorizontalFOV = viewWidth;
             VerticalFOV = viewHeight;
             this.sensitivity = sensitivity;
-            Resolution = resolution;
+            FrameWidth = horizontalResolution;
+            FrameHeight = verticalResolution;
             PyramidResolution = pyramidResolution;
             ViewDistance = viewDistance;
             rayPyramids = new RayPyramid[pyramidResolution, pyramidResolution];
@@ -54,41 +55,41 @@ namespace GameEngine {
                     float nextHorizontalAngle = startingHorizontalAngle + (pyramidHorizontalAngleIncrement * (j + 1));
 
                     Vector3 point1 = Vector3.Multiply(ViewDistance, Direction);
-                    point1 = VectorMath.RotateVector3Z(point1, verticalAngle);
-                    point1 = VectorMath.RotateVector3Y(point1, horizontalAngle);
+                    //point1 = VectorMath.RotateVector3Z(point1, verticalAngle);
+                    //point1 = VectorMath.RotateVector3Y(point1, horizontalAngle);
 
                     Vector3 point2 = Vector3.Multiply(ViewDistance, Direction);
-                    point2 = VectorMath.RotateVector3Z(point2, verticalAngle);
-                    point2 = VectorMath.RotateVector3Y(point2, nextHorizontalAngle);
+                    //point2 = VectorMath.RotateVector3Z(point2, verticalAngle);
+                    //point2 = VectorMath.RotateVector3Y(point2, nextHorizontalAngle);
 
                     Vector3 point3 = Vector3.Multiply(ViewDistance, Direction);
-                    point3 = VectorMath.RotateVector3Z(point3, nextVerticalAngle);
-                    point3 = VectorMath.RotateVector3Y(point3, horizontalAngle);
+                    //point3 = VectorMath.RotateVector3Z(point3, nextVerticalAngle);
+                    //point3 = VectorMath.RotateVector3Y(point3, horizontalAngle);
 
                     Vector3 point4 = Vector3.Multiply(ViewDistance, Direction);
-                    point4 = VectorMath.RotateVector3Z(point4, nextVerticalAngle);
-                    point4 = VectorMath.RotateVector3Y(point4, nextHorizontalAngle);
+                    //point4 = VectorMath.RotateVector3Z(point4, nextVerticalAngle);
+                    //point4 = VectorMath.RotateVector3Y(point4, nextHorizontalAngle);
 
                     rayPyramids[j, i] = new RayPyramid(Position, point1, point2, point3, point4);
 
                 }
             }
 
-            float horizontalAngleIncrement = viewWidth / resolution;
-            float verticalAngleIncrement = viewHeight / resolution;
+            float horizontalAngleIncrement = viewWidth / FrameWidth;
+            float verticalAngleIncrement = viewHeight / FrameHeight;
 
-            for (int i = 0; i < resolution; ++i) {
+            for (int i = 0; i < FrameHeight; ++i) {
                 float verticalAngle = startingVerticalAngle + (verticalAngleIncrement * i);
 
-                for (int j = 0; j < resolution; ++j) {
+                for (int j = 0; j < FrameWidth; ++j) {
                     float horizontalAngle = startingHorizontalAngle + (horizontalAngleIncrement * j);
 
                     Ray newRay = new Ray(Position, Direction, Color.Black);
                     newRay.RotateZ(verticalAngle);
                     newRay.RotateY(horizontalAngle);
 
-                    int rayPyramidHorizontalIndex = j / (resolution / pyramidResolution);
-                    int rayPyramidVerticalIndex = i / (resolution / pyramidResolution);
+                    int rayPyramidHorizontalIndex = (int)(j / (FrameWidth / pyramidResolution));
+                    int rayPyramidVerticalIndex = (int)(i / (FrameHeight / pyramidResolution));
 
                     rayPyramids[rayPyramidHorizontalIndex, rayPyramidVerticalIndex].RayList.Add(newRay);
                 }
@@ -105,9 +106,10 @@ namespace GameEngine {
         #region Update Functions
 
         public override Bitmap GetFrame () {
-            Bitmap frame = new Bitmap(Resolution, Resolution);
+            Bitmap frame = new Bitmap((int)FrameWidth, (int)FrameHeight);
 
-            int internalPyramidResolution = Resolution / PyramidResolution;
+            int internalPyramidResolution = (int)(FrameHeight / PyramidResolution);
+            //need to fix all this nonsense to work with horizontal and vertical resolutions
 
             for (int i = 0; i < rayPyramids.GetLength(0); ++i) {
                 int startingFrameX = i * internalPyramidResolution;
@@ -148,8 +150,8 @@ namespace GameEngine {
 
             float yAxisAngle = (mouseXDif / 100f) * sensitivity;
             float xAxisAngle = (mouseYDif / 100f) * -sensitivity;
-            Direction = VectorMath.RotateVector3Y(Direction, yAxisAngle);
-            Direction = VectorMath.TurretRotateVector3X(Direction, xAxisAngle, AngleFromZ);
+            //Direction = VectorMath.RotateVector3Y(Direction, yAxisAngle);
+            //Direction = VectorMath.TurretRotateVector3X(Direction, xAxisAngle, AngleFromZ);
 
             AngleFromZ += xAxisAngle;
 
@@ -183,6 +185,10 @@ namespace GameEngine {
                     }
                 }
             }
+        }
+
+        public override void Dispose () {
+            throw new NotImplementedException();
         }
 
         #endregion
