@@ -4,18 +4,18 @@ using System.Windows.Forms;
 
 namespace GameEngine {
     class GraphicsHandler {
-        public Bitmap Frame;
+        private PictureBox cameraView;
 
-        public GraphicsHandler () {
+        public GraphicsHandler (PictureBox cameraView) {
+            this.cameraView = cameraView;
         }
 
         public void Update(Camera activeCamera, List<EnvironmentObject> objects, int mouseXDif, int mouseYDif) {
             activeCamera.Update(objects, mouseXDif, mouseYDif);
-            if (Frame != null) {
-                Frame.Dispose();
-            }
-            Frame = activeCamera.GetFrame();
-            //cameraView.Refresh();
+            Frame temp = activeCamera.GetFrame();
+            cameraView.BackgroundImage = temp.Image;
+            //cameraView.Invalidate();
+            cameraView.Update();
         }
     }
 }

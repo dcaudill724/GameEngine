@@ -15,7 +15,7 @@ namespace GameEngine {
         public float FrameHeight;
 
         public abstract void Update (List<EnvironmentObject> objects, int mouseXDif, int mouseYDif);
-        public abstract Bitmap GetFrame ();
+        public abstract Frame GetFrame ();
 
         public abstract void Dispose ();
     }

@@ -63,7 +63,6 @@
     <Compile Include="Environment\EnvironmentObjects\Shapes\Cube.cs" />
     <Compile Include="Environment\EnvironmentObjects\Shapes\Sphere.cs" />
     <Compile Include="Environment\EnvironmentObjects\Shapes\Triangle.cs" />
-    <Compile Include="Environment\Graphics\BitmapDrawing.cs" />
     <Compile Include="Environment\Graphics\FrameCounter.cs" />
     <Compile Include="Environment\Graphics\ProjectionCamera\Frame.cs" />
     <Compile Include="Environment\Graphics\ProjectionCamera\ProjectionCamera.cs" />

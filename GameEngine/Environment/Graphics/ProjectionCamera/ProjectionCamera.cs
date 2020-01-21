@@ -8,8 +8,7 @@ using System.Threading;
 namespace GameEngine {
     class ProjectionCamera : Camera {
         private Matrix4x4 projectionMatrix;
-        private Thread[] frameCleanerThreads;
-        private List<Frame> frames;
+        private Frame frame;
 
         public ProjectionCamera () {
             Name = "Projection Camera";
@@ -36,25 +35,12 @@ namespace GameEngine {
 
             projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView((float)(Math.PI / 2), FrameWidth / FrameHeight, 0.1f, 1000.0f);
 
-            frames = new List<Frame>();
-            for (int i = 0; i < 40; ++i) {
-                frames.Add(new Frame(FrameWidth, FrameHeight));
-            }
-
-            frameCleanerThreads = new Thread[] {
-                new Thread(() => cleanFrames())
-            };
-                
-            foreach (Thread t in frameCleanerThreads) {
-                t.Start();
-            }
+            frame = new Frame(FrameWidth, FrameHeight);
         }
 
-        public unsafe override Bitmap GetFrame () {
-            
-            Frame frame = GetCleanFrame();
-            
-            /*Matrix4x4 viewMatrix = Matrix4x4.CreateLookAt(Position, Position + Direction, new Vector3(0, 1, 0));
+        public override Frame GetFrame () {
+
+            Matrix4x4 viewMatrix = Matrix4x4.CreateLookAt(Position, Position + Direction, new Vector3(0, 1, 0));
 
             foreach (EnvironmentObject e in Environment.EnvironmentObjects) {
                 List<Triangle> triangles = e.Mesh.Triangles;
@@ -68,11 +54,11 @@ namespace GameEngine {
                         projectedPoints[j] = ConvertToScreenSpace(point, FrameWidth, FrameHeight);
                     }
 
-                   //BitmapDrawing.DrawTriangle(graphics, projectedPoints, Color.White, 2);
+                   frame.DrawTriangle(projectedPoints, Color.White, 2);
                 }
-            }*/
+            }
 
-            return frame.Image;
+            return frame;
         }
 
         private Vector3 ConvertToScreenSpace(Vector3 vec, float frameWidth, float frameHeight) {
@@ -100,29 +86,8 @@ namespace GameEngine {
             AngleFromZ += xAxisAngle;
         }
 
-        private Frame GetCleanFrame() {
-            while (true) {
-                for (int i = 0; i < frames.Count; ++i) {
-                    if (frames[i].Clean) {
-                        frames[i].Clean = false;
-                        return frames[i];
-                    }
-                }
-            }
-        }
-
-        private Bitmap cleanFrames() {
-            while(true) {
-                for (int i = 0; i < frames.Count; ++i) {
-                    frames[i].CleanImage();
-                }
-            }
-        }
-
         public override void Dispose () {
-            foreach (Thread t in frameCleanerThreads) {
-                t.Abort();
-            }
+            frame.Dispose();
         }
     }
 }

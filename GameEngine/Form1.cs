@@ -24,7 +24,7 @@ namespace GameEngine {
             };
 
             CameraViewPictureBox.Controls.Add(fpsLabel);
-            Thread environmentThread = new Thread(() => Environment.Start());
+            Thread environmentThread = new Thread(() => Environment.Start(CameraViewPictureBox));
             environmentThread.Start();
         }
 
@@ -37,7 +37,7 @@ namespace GameEngine {
             }
         }
 
-        public void SetCameraViewSize(Camera camera) {
+        public void SetCameraViewSize (Camera camera) {
             float viewAspectRatio = (float)CameraViewPanel.Height / (float)CameraViewPanel.Width;
             float aspectRatio = camera.FrameHeight / camera.FrameWidth;
             if (aspectRatio > viewAspectRatio) {
@@ -60,13 +60,8 @@ namespace GameEngine {
             }
         }
 
-        private void UpdateFpsLabel(object sender, EventArgs e) {
+        private void UpdateFpsLabel (object sender, EventArgs e) {
             CameraViewPictureBox.Controls["FpsLabel"].Text = "Fps: " + Environment.FPS;
-        }
-
-        private void CameraViewPictureBox_BackgroundImageChanged (object sender, EventArgs e) {
-            //Console.WriteLine("here");
-            //Refresh();
         }
     }
 }

@@ -40,6 +40,7 @@ namespace GameEngine {
 
         private void SetActive (object sender, EventArgs e) {
             Environment.ActiveCamera = camera;
+            
             CameraNameTextBox.BackColor = Color.White;
             BackColor = Color.White;
 

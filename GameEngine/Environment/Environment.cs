@@ -17,16 +17,16 @@ namespace GameEngine {
         private static Point mousePoint;
 
 
-        public static void Start () {
-            initGraphics();
+        public static void Start (PictureBox cameraView) {
+            initGraphics(cameraView);
             initEnvironment();
             Thread graphicsThread = new Thread(new ThreadStart(updateGraphics));
             graphicsThread.Start();
         }
 
         #region init functions
-        private static void initGraphics() {
-            graphicsHandler = new GraphicsHandler();
+        private static void initGraphics(PictureBox cameraView) {
+            graphicsHandler = new GraphicsHandler(cameraView);
             cameraMode = false;
             Cameras = new List<Camera>();
         }
@@ -68,14 +68,6 @@ namespace GameEngine {
         public static void DisableCameraMode() {
             Cursor.Show();
             cameraMode = false;
-        }
-
-        public static void SelectCamera (int index) {
-            if (index != -1) {
-                ActiveCamera = Cameras[index];
-            } else {
-                ActiveCamera = null;
-            }
         }
     }
 }

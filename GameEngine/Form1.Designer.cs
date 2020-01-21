@@ -47,7 +47,6 @@
             this.CameraViewPictureBox.Size = new System.Drawing.Size(632, 321);
             this.CameraViewPictureBox.TabIndex = 0;
             this.CameraViewPictureBox.TabStop = false;
-            this.CameraViewPictureBox.BackgroundImageChanged += new System.EventHandler(this.CameraViewPictureBox_BackgroundImageChanged);
             this.CameraViewPictureBox.Click += new System.EventHandler(this.CameraView_Click);
             // 
             // CameraViewPanel

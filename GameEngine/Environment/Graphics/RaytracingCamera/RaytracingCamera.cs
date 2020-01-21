@@ -105,8 +105,9 @@ namespace GameEngine {
 
         #region Update Functions
 
-        public override Bitmap GetFrame () {
-            Bitmap frame = new Bitmap((int)FrameWidth, (int)FrameHeight);
+        public override Frame GetFrame () {
+            throw new NotImplementedException();
+            /*Bitmap frame = new Bitmap((int)FrameWidth, (int)FrameHeight);
 
             int internalPyramidResolution = (int)(FrameHeight / PyramidResolution);
             //need to fix all this nonsense to work with horizontal and vertical resolutions
@@ -127,7 +128,7 @@ namespace GameEngine {
                 }
             }
 
-            return frame;
+            return frame;*/
         }
 
         public override void Update (List<EnvironmentObject> objects, int mouseXDif, int mouseYDif) {
