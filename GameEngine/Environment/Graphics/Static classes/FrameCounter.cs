@@ -15,6 +15,7 @@ namespace GameEngine {
                 int fps = frameCounter * 2;
                 frameCounter = 0;
                 lastTime = DateTime.Now;
+                Console.WriteLine(fps);
                 return fps;
             } else {
                 ++frameCounter;

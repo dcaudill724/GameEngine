@@ -1,0 +1,2 @@
+Issues: 
+	Update CameraViewPictureBox from within graphicsHandler instead of using a timer

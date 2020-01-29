@@ -10,6 +10,7 @@ namespace GameEngine {
         private Matrix4x4 projectionMatrix;
         private Frame frame;
 
+
         public ProjectionCamera () {
             Name = "Projection Camera";
             Position = new Vector3(0, 0, 0);
@@ -33,12 +34,13 @@ namespace GameEngine {
             FrameWidth = horizontalRes;
             FrameHeight = verticalRes;
 
-            projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView((float)(Math.PI / 2), FrameWidth / FrameHeight, 0.1f, 1000.0f);
+            projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView((float)(Math.PI / 3), FrameWidth / FrameHeight, 0.1f, 1000.0f);
 
-            frame = new Frame(FrameWidth, FrameHeight);
+            frame = new Frame((int)FrameWidth, (int)FrameHeight);
         }
 
         public override Frame GetFrame () {
+            frame.Clear();
 
             Matrix4x4 viewMatrix = Matrix4x4.CreateLookAt(Position, Position + Direction, new Vector3(0, 1, 0));
 
@@ -57,7 +59,7 @@ namespace GameEngine {
                    frame.DrawTriangle(projectedPoints, Color.White, 2);
                 }
             }
-
+            
             return frame;
         }
 
@@ -87,7 +89,7 @@ namespace GameEngine {
         }
 
         public override void Dispose () {
-            frame.Dispose();
+            
         }
     }
 }

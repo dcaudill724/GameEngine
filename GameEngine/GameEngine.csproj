@@ -63,7 +63,15 @@
     <Compile Include="Environment\EnvironmentObjects\Shapes\Cube.cs" />
     <Compile Include="Environment\EnvironmentObjects\Shapes\Sphere.cs" />
     <Compile Include="Environment\EnvironmentObjects\Shapes\Triangle.cs" />
-    <Compile Include="Environment\Graphics\FrameCounter.cs" />
+    <Compile Include="Environment\Graphics\Classes\GraphicsInstruction.cs" />
+    <Compile Include="Environment\Graphics\Classes\Line.cs" />
+    <Compile Include="Environment\Graphics\Custom Controls\GraphicsDisplay.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Environment\Graphics\Custom Controls\GraphicsDisplay.Designer.cs">
+      <DependentUpon>GraphicsDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Environment\Graphics\Static classes\FrameCounter.cs" />
     <Compile Include="Environment\Graphics\ProjectionCamera\Frame.cs" />
     <Compile Include="Environment\Graphics\ProjectionCamera\ProjectionCamera.cs" />
     <Compile Include="Environment\Graphics\RaytracingCamera\Ray.cs" />
@@ -74,8 +82,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Environment\Graphics\Camera.cs" />
-    <Compile Include="Environment\Graphics\GraphicsHandler.cs" />
+    <Compile Include="Environment\Graphics\Abstract classes, Interfaces and Enumerations\Camera.cs" />
+    <Compile Include="Environment\Graphics\Static classes\GraphicsHandler.cs" />
     <Compile Include="Environment\Graphics\RaytracingCamera\RaytracingCamera.cs" />
     <Compile Include="MiscClasses\GJKCollision.cs" />
     <Compile Include="MiscClasses\VectorMath.cs" />

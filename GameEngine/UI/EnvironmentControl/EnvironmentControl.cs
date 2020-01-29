@@ -43,7 +43,7 @@ namespace GameEngine {
         }
 
         public void SetCameraViewSize(Camera camera) {
-            (Parent as Form1).SetCameraViewSize(camera);
+            ((Parent as Form1).Controls["CameraView"] as GraphicsDisplay).SetActiveCamera(camera);
         }
     }
 }
