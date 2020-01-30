@@ -30,6 +30,10 @@ namespace GameEngine {
             Instructions.Add(new GraphicsInstruction(GraphicsInstructions.DrawTriangle, points, c, lineWeight));
         }
 
+        public void FillTriangle(Vector3[] points, Color c, float brightness) {
+            Instructions.Add(new GraphicsInstruction(GraphicsInstructions.FillTriangle, points, c, brightness));
+        }
+
         public void Clear() {
             Instructions.Clear();
         }

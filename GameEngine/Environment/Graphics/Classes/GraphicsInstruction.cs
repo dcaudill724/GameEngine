@@ -1,7 +1,8 @@
 ﻿namespace GameEngine {
     public enum GraphicsInstructions {
         DrawLine,
-        DrawTriangle
+        DrawTriangle,
+        FillTriangle
     }
 
     public class GraphicsInstruction {

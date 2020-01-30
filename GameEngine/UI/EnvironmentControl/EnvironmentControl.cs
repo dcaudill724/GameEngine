@@ -22,6 +22,7 @@ namespace GameEngine {
         private void AddCameraButton_Click (object sender, EventArgs e) {
             AddCamera newCameraForm = new AddCamera(this);
             newCameraForm.Show();
+            ActiveControl = null;
         }
 
         private void CameraListFlowPanel_ControlRemoved (object sender, ControlEventArgs e) {

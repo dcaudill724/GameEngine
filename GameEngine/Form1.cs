@@ -26,6 +26,8 @@ namespace GameEngine {
 
         private void CameraView_Click_1 (object sender, EventArgs e) {
             if ((e as MouseEventArgs).Button == MouseButtons.Right) {
+                Select();
+                Focus();
                 Environment.ToggleCameraMode();
             }
         }

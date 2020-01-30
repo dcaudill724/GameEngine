@@ -26,11 +26,11 @@ namespace GameEngine {
 
             Vector3[,] faces = {
                 { points[1], points[0], points[2], points[3] }, //right 
-                { points[4], points[0], points[1], points[5] }, //top 
+                { points[4], points[0], points[1], points[5] }, //bottom
                 { points[0], points[4], points[6], points[2] }, //back 
                 { points[4], points[5], points[7], points[6] }, //left 
-                { points[7], points[6], points[2], points[3] },  //bottom
-                { points[5], points[1], points[3], points[7] } //front
+                { points[6], points[7], points[3], points[2] }, //top
+                { points[5], points[1], points[3], points[7] }  //front
             };
 
             List<Triangle> triangles = new List<Triangle>();

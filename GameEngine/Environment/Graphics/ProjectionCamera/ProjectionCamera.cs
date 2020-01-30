@@ -44,19 +44,29 @@ namespace GameEngine {
 
             Matrix4x4 viewMatrix = Matrix4x4.CreateLookAt(Position, Position + Direction, new Vector3(0, 1, 0));
 
+            Vector3 lightDirection = new Vector3(-1f, 0f, 0f);
+
             foreach (EnvironmentObject e in Environment.EnvironmentObjects) {
                 List<Triangle> triangles = e.Mesh.Triangles;
                 for (int i = 0; i < triangles.Count; ++i) {
-                    Vector3[] projectedPoints = new Vector3[3];
-                    Triangle t = triangles[i];
+                    Triangle t = triangles[i]; //Current triangle
 
-                    for (int j = 0; j < 3; ++j) {
-                        Vector3 point = Vector3.Transform(t.Points[j], viewMatrix);
+                    if (Vector3.Dot(t.Normal, t.Points[0] - Position) < 0.0f) { 
+                        Vector3[] projectedPoints = new Vector3[3]; //Stores projected points
 
-                        projectedPoints[j] = ConvertToScreenSpace(point, FrameWidth, FrameHeight);
+                        //Converts the points from 3D space to 2D space
+                        for (int j = 0; j < 3; ++j) {
+                            Vector3 point = Vector3.Transform(t.Points[j], viewMatrix);
+
+                            projectedPoints[j] = ConvertToScreenSpace(point, FrameWidth, FrameHeight);
+                        }
+
+                        float brightness = Vector3.Dot(t.Normal, lightDirection);
+                        //brightness isn't working bro
+                        Console.WriteLine(brightness);
+
+                        frame.FillTriangle(projectedPoints, e.GetColor(), 1);
                     }
-
-                   frame.DrawTriangle(projectedPoints, Color.White, 2);
                 }
             }
             
@@ -74,13 +84,14 @@ namespace GameEngine {
             return newVec;
         }
 
-        public override void Update (List<EnvironmentObject> objects, int mouseXDif, int mouseYDif) {
+        public override void Update (List<EnvironmentObject> objects, int mouseXDif, int mouseYDif, Vector3 direction) {
+            Position += direction;
             if (mouseXDif != 0 || mouseYDif != 0) {
-                updateDirection(-mouseXDif, mouseYDif);
+                updateDirection(-mouseXDif, mouseYDif, direction);
             }
         }
 
-        private void updateDirection (int mouseXDif, int mouseYDif) {
+        private void updateDirection (int mouseXDif, int mouseYDif, Vector3 direction) {
             float yAxisAngle = (mouseXDif / 100f) * sensitivity;
             float xAxisAngle = (mouseYDif / 100f) * -sensitivity;
             Direction = VectorMath.RotateVector3Y(Direction, yAxisAngle);

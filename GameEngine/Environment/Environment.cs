@@ -21,6 +21,7 @@ namespace GameEngine {
             initGraphics(cameraView);
             initEnvironment();
             Thread graphicsThread = new Thread(new ThreadStart(updateGraphics));
+            graphicsThread.SetApartmentState(ApartmentState.STA);
             graphicsThread.Start();
         }
 
@@ -33,7 +34,7 @@ namespace GameEngine {
 
         private static void initEnvironment() {
             EnvironmentObjects = new List<EnvironmentObject>();
-            EnvironmentObjects.Add(new Cube(new Vector3(10, 0, 0), new Vector3(3, 3, 3), Color.White));
+            EnvironmentObjects.Add(new Cube(new Vector3(10, 0, 0), new Vector3(3, 3, 3), Color.Cyan));
             //EnvironmentObjects.Add(new Sphere(20, 0, 0, 5, Color.Red, 5));
         }
         #endregion

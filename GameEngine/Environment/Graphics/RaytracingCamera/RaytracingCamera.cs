@@ -131,7 +131,7 @@ namespace GameEngine {
             return frame;*/
         }
 
-        public override void Update (List<EnvironmentObject> objects, int mouseXDif, int mouseYDif) {
+        public override void Update (List<EnvironmentObject> objects, int mouseXDif, int mouseYDif, Vector3 direction) {
             if (mouseXDif != 0 || mouseYDif != 0) {
                 updateDirection(mouseXDif, mouseYDif);
             }
