@@ -21,12 +21,29 @@ namespace GameEngine {
             Normal = normal;
         }
 
+        public Triangle (Vector3[] points) {
+            Points = points;
+            generateNormal();
+        }
+
+        public Triangle() {
+            Points = new Vector3[3];
+            Normal = new Vector3(0, 0, 0);
+        }
+
         private void generateNormal() {
             Normal = Vector3.Cross(Points[1] - Points[0], Points[2] - Points[0]);
+            Normal = Vector3.Normalize(Normal);
         }
         
         public Triangle Copy() {
-            return new Triangle(Points[0], Points[1], Points[2]);
+            return new Triangle(Points[0], Points[1], Points[2], Normal);
+        }
+
+        public void TransformMatrix4x4(Matrix4x4 matrix) {
+            for (int i = 0; i < 3; ++i) {
+                Points[i] = Vector3.Transform(Points[i], matrix);
+            }
         }
     }
 }

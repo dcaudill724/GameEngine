@@ -37,8 +37,8 @@ namespace GameEngine {
 
             drawingMethods = new Dictionary<GraphicsInstructions, Action<Graphics, object[]>>();
             drawingMethods.Add(GraphicsInstructions.DrawLine, (Graphics graphics, object[] parameters) => drawLine(graphics, (Line)parameters[0], (Color)parameters[1], (int)parameters[2]));
-            drawingMethods.Add(GraphicsInstructions.DrawTriangle, (Graphics graphics, object[] parameters) => drawTrangle(graphics, (Vector3[])parameters[0], (Color)parameters[1], (int)parameters[2]));
-            drawingMethods.Add(GraphicsInstructions.FillTriangle, (Graphics graphics, object[] parameters) => fillTriangle(graphics, (Vector3[])parameters[0], (Color)parameters[1], (float)parameters[2]));
+            drawingMethods.Add(GraphicsInstructions.DrawTriangle, (Graphics graphics, object[] parameters) => drawTrangle(graphics, (Triangle)parameters[0], (Color)parameters[1], (int)parameters[2]));
+            drawingMethods.Add(GraphicsInstructions.FillTriangle, (Graphics graphics, object[] parameters) => fillTriangle(graphics, (Triangle)parameters[0], (Color)parameters[1], (float)parameters[2]));
 
             Ready = true;
         }
@@ -97,27 +97,27 @@ namespace GameEngine {
             graphics.DrawLine(new Pen(c, lineWeight), line.X1, line.Y1, line.X2, line.Y2);
         }
 
-        private void drawTrangle(Graphics graphics, Vector3[] points, Color c, int lineWeight) {
-            Line l1 = new Line((int)points[0].X, (int)points[0].Y, (int)points[1].X, (int)points[1].Y);
-            Line l2 = new Line((int)points[0].X, (int)points[0].Y, (int)points[2].X, (int)points[2].Y);
-            Line l3 = new Line((int)points[1].X, (int)points[1].Y, (int)points[2].X, (int)points[2].Y);
+        private void drawTrangle(Graphics graphics, Triangle triangle, Color c, int lineWeight) {
+            Line l1 = new Line((int)triangle.Points[0].X, (int)triangle.Points[0].Y, (int)triangle.Points[1].X, (int)triangle.Points[1].Y);
+            Line l2 = new Line((int)triangle.Points[0].X, (int)triangle.Points[0].Y, (int)triangle.Points[2].X, (int)triangle.Points[2].Y);
+            Line l3 = new Line((int)triangle.Points[1].X, (int)triangle.Points[1].Y, (int)triangle.Points[2].X, (int)triangle.Points[2].Y);
             drawLine(graphics, l1, c, lineWeight);
             drawLine(graphics, l2, c, lineWeight);
             drawLine(graphics, l3, c, lineWeight);
         }
 
-        private void fillTriangle(Graphics graphics, Vector3[] points, Color c, float brightness) {
+        private void fillTriangle(Graphics graphics, Triangle triangle, Color c, float brightness) {
             c = Color.FromArgb((int)(c.R * brightness), (int)(c.G * brightness), (int)(c.B * brightness));
-            Array.Sort(points, delegate (Vector3 vec1, Vector3 vec2) { return vec1.Y.CompareTo(vec2.Y); });
-            if (points[1].Y == points[2].Y) {
-                fillFlatBottomTriangle(graphics, points, c);
+            Array.Sort(triangle.Points, delegate (Vector3 vec1, Vector3 vec2) { return vec1.Y.CompareTo(vec2.Y); });
+            if (triangle.Points[1].Y == triangle.Points[2].Y) {
+                fillFlatBottomTriangle(graphics, triangle.Points, c);
             }
-            else if (points[0].Y == points[1].Y) {
-                fillFlatTopTriangle(graphics, points, c);
+            else if (triangle.Points[0].Y == triangle.Points[1].Y) {
+                fillFlatTopTriangle(graphics, triangle.Points, c);
             } else {
-                Vector3 v4 = new Vector3((int)(points[0].X + (points[1].Y - points[0].Y) / (points[2].Y - points[0].Y) * (points[2].X - points[0].X)), points[1].Y, 1);
-                fillFlatBottomTriangle(graphics, new Vector3[] { points[0], points[1], v4 }, c);
-                fillFlatTopTriangle(graphics, new Vector3[] { points[1], v4, points[2] }, c);
+                Vector3 v4 = new Vector3((int)(triangle.Points[0].X + (triangle.Points[1].Y - triangle.Points[0].Y) / (triangle.Points[2].Y - triangle.Points[0].Y) * (triangle.Points[2].X - triangle.Points[0].X)), triangle.Points[1].Y, 1);
+                fillFlatBottomTriangle(graphics, new Vector3[] { triangle.Points[0], triangle.Points[1], v4 }, c);
+                fillFlatTopTriangle(graphics, new Vector3[] { triangle.Points[1], v4, triangle.Points[2] }, c);
             }
         }
 

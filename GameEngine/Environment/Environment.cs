@@ -34,7 +34,7 @@ namespace GameEngine {
 
         private static void initEnvironment() {
             EnvironmentObjects = new List<EnvironmentObject>();
-            EnvironmentObjects.Add(new Cube(new Vector3(10, 0, 0), new Vector3(3, 3, 3), Color.Cyan));
+            EnvironmentObjects.Add(new Cube(new Vector3(10, 0, 0), new Vector3(3, 3, 3), Color.Red));
             //EnvironmentObjects.Add(new Sphere(20, 0, 0, 5, Color.Red, 5));
         }
         #endregion
