@@ -49,6 +49,8 @@ namespace GameEngine {
 
             Vector3 lightDirection = Vector3.Normalize(new Vector3(-0.75f, -1f, -0.5f));
 
+            List<Triangle> trianglesToRaster = new List<Triangle>();
+
             foreach (EnvironmentObject e in Environment.EnvironmentObjects) {
                 List<Triangle> triangles = e.Mesh.Triangles;
                 for (int i = 0; i < triangles.Count; ++i) {
@@ -61,22 +63,68 @@ namespace GameEngine {
                         projected.TransformMatrix4x4(viewMatrix);
 
                         //Clip the triangle while adding it to the list of triangles to raster
-                        List<Triangle> trianglesToRaster = new List<Triangle>(ClipTriangleAgainstPlane(new Vector3(0f, 0f, 2.1f), new Vector3(0f, 0f, 1f), projected));
+                        trianglesToRaster.AddRange(ClipTriangleAgainstPlane(new Vector3(0f, 0f, 0.1f), new Vector3(0f, 0f, 1f), projected));
+                    }
+                }
+            }
 
-                        //List<Triangle> trianglesToRaster = new List<Triangle>() { projected };
-                        foreach (Triangle tri in trianglesToRaster) {
-                            //Converts the clipped triangle from 3D space to 2D space
-                            Triangle clipped = tri.Copy();
+            foreach (Triangle tri in trianglesToRaster) {
+                //Converts the clipped triangle from 3D space to 2D space
+                float brightness = Vector3.Dot(tri.Normal, lightDirection);
+                if (brightness < 0) {
+                    brightness = 0;
+                }
 
-                            float brightness = Vector3.Dot(clipped.Normal, lightDirection);
-                            if (brightness < 0) {
-                                brightness = 0;
-                            }
+                Triangle nearPlaneClipped = ConvertToScreenSpace(tri.Copy(), FrameWidth, FrameHeight);
 
-                            frame.FillTriangle(ConvertToScreenSpace(clipped.Copy(), FrameWidth, FrameHeight), e.GetColor(), brightness);
-                            frame.DrawTriangle(ConvertToScreenSpace(clipped.Copy(), FrameWidth, FrameHeight), Color.White, 2);
+                //To do from here: sort triangles by z and then clip against screen edges
+
+                //stores the triangles to clipped against the edges of the screen, so we put in the original to be clipped by the first edge
+                //The size of this will change as the triangles in this list get clipped by the edges
+                List<Triangle> clipQueue = new List<Triangle>() { nearPlaneClipped };
+                
+                //loop through the four edges of screen
+                for (int j = 0; j < 4; ++j) {
+
+                    //holds the triangles that the triangles in clipQueue become as they are clipped by the current clipping edge
+                    List<Triangle> newTris = new List<Triangle>();
+
+                    //loop through all of the triangles in clipQueue in order to clip them be the current clipping edge
+                    foreach (Triangle current in clipQueue) {
+
+                        //to select the plane we are clipping based on the loop interation
+                        switch (j) {
+                            case 0:
+                                //clip against the top edge of the screen
+                                newTris.AddRange(ClipTriangleAgainstPlane(new Vector3(0, 0, 0), new Vector3(0, -1, 0), current));
+                                break;
+                            case 1:
+                                //clip against left edge of the screen
+                                newTris.AddRange(ClipTriangleAgainstPlane(new Vector3(0, 0, 0), new Vector3(-1, 0, 0), current));
+                                break;
+                            case 2:
+                                //clip against bottom edge of the screen
+                                newTris.AddRange(ClipTriangleAgainstPlane(new Vector3(0, -FrameHeight, 0), new Vector3(0, 1, 0), current));
+                                break;
+                            case 3:
+                                //clip against right edge of the screen
+                                newTris.AddRange(ClipTriangleAgainstPlane(new Vector3(-FrameWidth, 0, 0), new Vector3(1, 0, 0), current));
+                                break;
                         }
                     }
+
+                    //once all of the triangles in clipQueue have been clipped by the edge, newTris will be populated by said clipped triangles
+                    //But all of these clipped triangles also need to be clipped by the remaining edges so we must set the clipQueue to newTris
+                    clipQueue.Clear(); //set it to a new list
+                    clipQueue.AddRange(newTris); //add the clipped triangles
+
+                }
+
+                //once the loop of clipping the edges has completed, clipQueue should be full of the triangles that need to be rastered
+
+                foreach (Triangle rasterReady in clipQueue) {
+                    frame.FillTriangle(rasterReady, rasterReady.Color, brightness);
+                    //frame.DrawTriangle(rasterReady, Color.White, 2);
                 }
             }
 
@@ -95,7 +143,7 @@ namespace GameEngine {
                 newPoint.Y *= (0.5f * frameHeight);
                 newPoints[i] = newPoint;
             }
-            return new Triangle(newPoints);
+            return new Triangle(newPoints, triangle.Color);
         }
 
         #region Clipping Functions
@@ -143,7 +191,7 @@ namespace GameEngine {
                 Vector3 p2 = LinePlaneIntersection(planePosition, planeNormal, p1, outsidePoints[0]);
                 Vector3 p3 = LinePlaneIntersection(planePosition, planeNormal, p1, outsidePoints[1]);
 
-                return new Triangle[] { new Triangle(p1, p2, p3, triangle.Normal) };
+                return new Triangle[] { new Triangle(p1, p2, p3, triangle.Normal, triangle.Color) };
             }
 
             if (insidePoints.Count == 2 && outsidePoints.Count == 1) {
@@ -155,7 +203,7 @@ namespace GameEngine {
                 Vector3 t2p2 = t1p3;
                 Vector3 t2p3 = LinePlaneIntersection(planePosition, planeNormal, t2p1, outsidePoints[0]);
 
-                return new Triangle[] { new Triangle(t1p1, t1p3, t1p2, triangle.Normal), new Triangle(t2p1, t2p2, t2p3, triangle.Normal) };
+                return new Triangle[] { new Triangle(t1p1, t1p3, t1p2, triangle.Normal, triangle.Color), new Triangle(t2p1, t2p2, t2p3, triangle.Normal, triangle.Color) };
             }
             return null; //To satisfy the compliers :(
         }

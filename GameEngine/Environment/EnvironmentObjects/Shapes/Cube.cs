@@ -36,8 +36,8 @@ namespace GameEngine {
             List<Triangle> triangles = new List<Triangle>();
 
             for (int i = 0; i < 6; ++i) {
-                triangles.Add(new Triangle(faces[i, 0], faces[i, 1], faces[i, 3]));
-                triangles.Add(new Triangle(faces[i, 3], faces[i, 1], faces[i, 2]));
+                triangles.Add(new Triangle(faces[i, 0], faces[i, 1], faces[i, 3], c));
+                triangles.Add(new Triangle(faces[i, 3], faces[i, 1], faces[i, 2], c));
             }
 
             Mesh = new Mesh(triangles);

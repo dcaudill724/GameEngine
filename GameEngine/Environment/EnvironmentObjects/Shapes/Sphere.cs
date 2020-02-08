@@ -68,8 +68,8 @@ namespace GameEngine {
             //for each point, generate both the triangles in the square that it (the point) is in the top left of
             for (int j = 0; j < resolution - 1; ++j) { //vertical
                 for (int k = 0; k < resolution - 1; ++k) { //horizontal
-                    meshTriangles.Add(new Triangle(newFacePoints[k, j], newFacePoints[k + 1, j], newFacePoints[k, j + 1]));
-                    meshTriangles.Add(new Triangle(newFacePoints[k, j + 1], newFacePoints[k + 1, j], newFacePoints[k + 1, j + 1]));
+                    meshTriangles.Add(new Triangle(newFacePoints[k, j], newFacePoints[k + 1, j], newFacePoints[k, j + 1], color));
+                    meshTriangles.Add(new Triangle(newFacePoints[k, j + 1], newFacePoints[k + 1, j], newFacePoints[k + 1, j + 1], color));
                 }
             }
 
