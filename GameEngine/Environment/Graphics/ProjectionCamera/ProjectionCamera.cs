@@ -45,39 +45,23 @@ namespace GameEngine {
         public override Frame GetFrame () {
             frame.Clear();
 
-            Matrix4x4 viewMatrix = Matrix4x4.CreateLookAt(Position, Position + Direction, new Vector3(0, 1, 0));
-
             Vector3 lightDirection = Vector3.Normalize(new Vector3(-0.75f, -1f, -0.5f));
 
-            List<Triangle> trianglesToRaster = new List<Triangle>();
+            //Get all the triangles that can be seen by the camera projected to view space
+            List<Triangle> trianglesToRaster = projectVisibleTriangles();
 
-            foreach (EnvironmentObject e in Environment.EnvironmentObjects) {
-                List<Triangle> triangles = e.Mesh.Triangles;
-                for (int i = 0; i < triangles.Count; ++i) {
-                    Triangle t = triangles[i]; //Current triangle
-
-                    if (Vector3.Dot(t.Normal, t.Points[0] - Position) < 0.0f) {
-                        Triangle projected = t.Copy();
-
-                        //Convert from world space to view space (Still 3D)
-                        projected.TransformMatrix4x4(viewMatrix);
-
-                        //Clip the triangle while adding it to the list of triangles to raster
-                        trianglesToRaster.AddRange(ClipTriangleAgainstPlane(new Vector3(0f, 0f, 0.1f), new Vector3(0f, 0f, 1f), projected));
-                    }
-                }
-            }
-
+            //Loop through all of the projected and clipped triangles
             foreach (Triangle tri in trianglesToRaster) {
-                //Converts the clipped triangle from 3D space to 2D space
+                
+                //obtain the brightness value by evaluating the the dot product between the normal of the triangle's surface
+                //and the direction of the light
                 float brightness = Vector3.Dot(tri.Normal, lightDirection);
                 if (brightness < 0) {
                     brightness = 0;
                 }
 
+                //converts the triangle in 3D view space into a normalized (x and y between -1 and 1) 2D screen space
                 Triangle nearPlaneClipped = ConvertToScreenSpace(tri.Copy(), FrameWidth, FrameHeight);
-
-                //To do from here: sort triangles by z and then clip against screen edges
 
                 //stores the triangles to clipped against the edges of the screen, so we put in the original to be clipped by the first edge
                 //The size of this will change as the triangles in this list get clipped by the edges
@@ -122,13 +106,44 @@ namespace GameEngine {
 
                 //once the loop of clipping the edges has completed, clipQueue should be full of the triangles that need to be rastered
 
+                //Draw them all!
                 foreach (Triangle rasterReady in clipQueue) {
                     frame.FillTriangle(rasterReady, rasterReady.Color, brightness);
-                    //frame.DrawTriangle(rasterReady, Color.White, 2);
+                    frame.DrawTriangle(rasterReady, Color.White, 2);
                 }
             }
 
             return frame;
+        }
+
+        private List<Triangle> projectVisibleTriangles() {
+            //create a look at matrix to transfrom the environment objects from world space to view space
+            Matrix4x4 viewMatrix = Matrix4x4.CreateLookAt(Position, Position + Direction, new Vector3(0, 1, 0));
+
+            List<Triangle> trianglesToRaster = new List<Triangle>();
+
+            //loops through each object in the environment and if any triangle of the object can be seen, it gets projected
+            //to view space and clips them against the near plane (so objects behind the camera aren't rendered)
+            foreach (EnvironmentObject e in Environment.EnvironmentObjects) {
+                List<Triangle> triangles = e.Mesh.Triangles;
+                for (int i = 0; i < triangles.Count; ++i) {
+                    Triangle t = triangles[i]; //Current triangle
+
+                    //Creates vector from the camera position to the triangle, if the dot product is less than 0 then the camera 
+                    //can see the triangle so the projection and clipping can be done
+                    if (Vector3.Dot(t.Normal, t.Points[0] - Position) < 0.0f) {
+                        Triangle projected = t.Copy();
+
+                        //Convert from world space to view space (Still 3D)
+                        projected.TransformMatrix4x4(viewMatrix);
+
+                        //Clip the triangle against the near plane while adding it to the list of triangles to raster
+                        trianglesToRaster.AddRange(ClipTriangleAgainstPlane(new Vector3(0f, 0f, 0.1f), new Vector3(0f, 0f, 1f), projected));
+                    }
+                }
+            }
+
+            return trianglesToRaster;
         }
 
         private Triangle ConvertToScreenSpace (Triangle triangle, float frameWidth, float frameHeight) {
