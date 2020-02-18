@@ -37,8 +37,8 @@ namespace GameEngine {
 
             drawingMethods = new Dictionary<GraphicsInstructions, Action<Graphics, object[]>>();
             drawingMethods.Add(GraphicsInstructions.DrawLine, (Graphics graphics, object[] parameters) => drawLine(graphics, (Line)parameters[0], (Color)parameters[1], (int)parameters[2]));
-            drawingMethods.Add(GraphicsInstructions.DrawTriangle, (Graphics graphics, object[] parameters) => drawTrangle(graphics, (Triangle)parameters[0], (Color)parameters[1], (int)parameters[2]));
-            drawingMethods.Add(GraphicsInstructions.FillTriangle, (Graphics graphics, object[] parameters) => fillTriangle(graphics, (Triangle)parameters[0], (Color)parameters[1], (float)parameters[2]));
+            drawingMethods.Add(GraphicsInstructions.DrawTriangle, (Graphics graphics, object[] parameters) => drawTrangle(graphics, (GraphicsTriangle)parameters[0], (Color)parameters[1], (int)parameters[2]));
+            drawingMethods.Add(GraphicsInstructions.FillTriangle, (Graphics graphics, object[] parameters) => fillTriangle(graphics, (GraphicsTriangle)parameters[0], (Color)parameters[1], (float)parameters[2]));
 
             Ready = true;
         }
@@ -97,38 +97,38 @@ namespace GameEngine {
             graphics.DrawLine(new Pen(c, lineWeight), line.X1, line.Y1, line.X2, line.Y2);
         }
 
-        private void drawTrangle(Graphics graphics, Triangle triangle, Color c, int lineWeight) {
-            Line l1 = new Line((int)triangle.Points[0].X, (int)triangle.Points[0].Y, (int)triangle.Points[1].X, (int)triangle.Points[1].Y);
-            Line l2 = new Line((int)triangle.Points[0].X, (int)triangle.Points[0].Y, (int)triangle.Points[2].X, (int)triangle.Points[2].Y);
-            Line l3 = new Line((int)triangle.Points[1].X, (int)triangle.Points[1].Y, (int)triangle.Points[2].X, (int)triangle.Points[2].Y);
+        private void drawTrangle(Graphics graphics, GraphicsTriangle triangle, Color c, int lineWeight) {
+            Line l1 = new Line((int)triangle.Points[0].Value.X, (int)triangle.Points[0].Value.Y, (int)triangle.Points[1].Value.X, (int)triangle.Points[1].Value.Y);
+            Line l2 = new Line((int)triangle.Points[0].Value.X, (int)triangle.Points[0].Value.Y, (int)triangle.Points[2].Value.X, (int)triangle.Points[2].Value.Y);
+            Line l3 = new Line((int)triangle.Points[1].Value.X, (int)triangle.Points[1].Value.Y, (int)triangle.Points[2].Value.X, (int)triangle.Points[2].Value.Y);
             drawLine(graphics, l1, c, lineWeight);
             drawLine(graphics, l2, c, lineWeight);
             drawLine(graphics, l3, c, lineWeight);
         }
 
-        private void fillTriangle(Graphics graphics, Triangle triangle, Color c, float brightness) {
+        private void fillTriangle(Graphics graphics, GraphicsTriangle triangle, Color c, float brightness) {
             c = Color.FromArgb((int)(c.R * brightness), (int)(c.G * brightness), (int)(c.B * brightness));
-            Array.Sort(triangle.Points, delegate (Vector3 vec1, Vector3 vec2) { return vec1.Y.CompareTo(vec2.Y); });
-            if (triangle.Points[1].Y == triangle.Points[2].Y) {
+            Array.Sort(triangle.Points, delegate (GraphicsVector3 vec1, GraphicsVector3 vec2) { return vec1.Value.Y.CompareTo(vec2.Value.Y); });
+            if (triangle.Points[1].Value.Y == triangle.Points[2].Value.Y) {
                 fillFlatBottomTriangle(graphics, triangle.Points, c);
             }
-            else if (triangle.Points[0].Y == triangle.Points[1].Y) {
+            else if (triangle.Points[0].Value.Y == triangle.Points[1].Value.Y) {
                 fillFlatTopTriangle(graphics, triangle.Points, c);
             } else {
-                Vector3 v4 = new Vector3((int)(triangle.Points[0].X + (triangle.Points[1].Y - triangle.Points[0].Y) / (triangle.Points[2].Y - triangle.Points[0].Y) * (triangle.Points[2].X - triangle.Points[0].X)), triangle.Points[1].Y, 1);
-                fillFlatBottomTriangle(graphics, new Vector3[] { triangle.Points[0], triangle.Points[1], v4 }, c);
-                fillFlatTopTriangle(graphics, new Vector3[] { triangle.Points[1], v4, triangle.Points[2] }, c);
+                GraphicsVector3 v4 = new GraphicsVector3(new Vector3((int)(triangle.Points[0].Value.X + (triangle.Points[1].Value.Y - triangle.Points[0].Value.Y) / (triangle.Points[2].Value.Y - triangle.Points[0].Value.Y) * (triangle.Points[2].Value.X - triangle.Points[0].Value.X)), triangle.Points[1].Value.Y, 1));
+                fillFlatBottomTriangle(graphics, new GraphicsVector3[] { triangle.Points[0], triangle.Points[1], v4 }, c);
+                fillFlatTopTriangle(graphics, new GraphicsVector3[] { triangle.Points[1], v4, triangle.Points[2] }, c);
             }
         }
 
-        private void fillFlatTopTriangle(Graphics graphics, Vector3[] points, Color c) {
-            float invslope1 = (points[2].X - points[0].X) / (points[2].Y - points[0].Y);
-            float invslope2 = (points[2].X - points[1].X) / (points[2].Y - points[1].Y);
+        private void fillFlatTopTriangle(Graphics graphics, GraphicsVector3[] points, Color c) {
+            float invslope1 = (points[2].Value.X - points[0].Value.X) / (points[2].Value.Y - points[0].Value.Y);
+            float invslope2 = (points[2].Value.X - points[1].Value.X) / (points[2].Value.Y - points[1].Value.Y);
 
-            float curx1 = points[2].X;
-            float curx2 = points[2].X;
+            float curx1 = points[2].Value.X;
+            float curx2 = points[2].Value.X;
 
-            for (float scanlineY = points[2].Y; scanlineY > points[0].Y; scanlineY--) {
+            for (float scanlineY = points[2].Value.Y; scanlineY > points[0].Value.Y; scanlineY--) {
                 Line line = new Line((int)curx1, (int)scanlineY, (int)curx2, (int)scanlineY);
                 drawLine(graphics, line, c, 1);
                 curx1 -= invslope1;
@@ -136,15 +136,15 @@ namespace GameEngine {
             }
         }
 
-        private void fillFlatBottomTriangle(Graphics graphics, Vector3[] points, Color c) {
+        private void fillFlatBottomTriangle(Graphics graphics, GraphicsVector3[] points, Color c) {
             //issues here with weird artifacts
-            float invslope1 = (points[1].X - points[0].X) / (points[1].Y - points[0].Y);
-            float invslope2 = (points[2].X - points[0].X) / (points[2].Y - points[0].Y);
+            float invslope1 = (points[1].Value.X - points[0].Value.X) / (points[1].Value.Y - points[0].Value.Y);
+            float invslope2 = (points[2].Value.X - points[0].Value.X) / (points[2].Value.Y - points[0].Value.Y);
 
-            float curx1 = points[0].X;
-            float curx2 = points[0].X;
+            float curx1 = points[0].Value.X;
+            float curx2 = points[0].Value.X;
 
-            for (float scanlineY = points[0].Y; scanlineY <= points[1].Y; scanlineY++) {
+            for (float scanlineY = points[0].Value.Y; scanlineY <= points[1].Value.Y; scanlineY++) {
                 Line line = new Line((int)curx1, (int)scanlineY, (int)curx2, (int)scanlineY);
                 drawLine(graphics, line, c, 1);
                 curx1 += invslope1;

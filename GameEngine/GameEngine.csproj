@@ -63,8 +63,11 @@
     <Compile Include="Environment\EnvironmentObjects\Shapes\Cube.cs" />
     <Compile Include="Environment\EnvironmentObjects\Shapes\Sphere.cs" />
     <Compile Include="Environment\EnvironmentObjects\Shapes\Triangle.cs" />
+    <Compile Include="Environment\Graphics\Classes\GraphicsTriangle.cs" />
+    <Compile Include="Environment\Graphics\Classes\GraphicsVector3.cs" />
     <Compile Include="Environment\Graphics\Classes\GraphicsInstruction.cs" />
     <Compile Include="Environment\Graphics\Classes\Line.cs" />
+    <Compile Include="Environment\Graphics\Classes\TextureVector.cs" />
     <Compile Include="Environment\Graphics\Custom Controls\GraphicsDisplay.cs">
       <SubType>Component</SubType>
     </Compile>

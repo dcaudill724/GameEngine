@@ -31,11 +31,11 @@ namespace GameEngine {
             Instructions.Add(new GraphicsInstruction(GraphicsInstructions.DrawLine, l, c, lineWeight));
         }
 
-        public void DrawTriangle(Triangle triangle, Color c, int lineWeight) {
+        public void DrawTriangle(GraphicsTriangle triangle, Color c, int lineWeight) {
             Instructions.Add(new GraphicsInstruction(GraphicsInstructions.DrawTriangle, triangle, c, lineWeight));
         }
 
-        public void FillTriangle(Triangle triangle, Color c, float brightness) {
+        public void FillTriangle(GraphicsTriangle triangle, Color c, float brightness) {
             Instructions.Add(new GraphicsInstruction(GraphicsInstructions.FillTriangle, triangle, c, brightness));
         }
 
