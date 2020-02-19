@@ -16,7 +16,6 @@ namespace GameEngine {
 
         public abstract void Update (List<EnvironmentObject> objects, int mouseXDif, int mouseYDif, Vector3 direction);
         public abstract Frame GetFrame ();
-
         public abstract void Dispose ();
     }
 }
