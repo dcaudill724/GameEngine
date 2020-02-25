@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Numerics;
-using System.Threading;
 
 namespace GameEngine {
     class ProjectionCamera : Camera {
@@ -274,7 +272,7 @@ namespace GameEngine {
 
         #endregion
         public override void Dispose () {
-            
+            Delete();
         }
     }
 }

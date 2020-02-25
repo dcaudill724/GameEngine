@@ -6,6 +6,7 @@ using System.Reflection;
 namespace GameEngine {
     public partial class AddCamera : Form {
         private EnvironmentControl environmentControl;
+        private Camera cameraBuffer = null;
 
         public AddCamera (EnvironmentControl environmentControl) {
             this.environmentControl = environmentControl;
@@ -73,7 +74,8 @@ namespace GameEngine {
 
         private void AddCameraButton_Click (object sender, EventArgs e) {
             string cameraType = CameraListBox.SelectedItem.ToString();
-            Camera c = null;
+
+            cameraBuffer = null;
 
             string name = NameTextBox.Text;
             Vector3 position = new Vector3(float.Parse(XTextBox.Text), float.Parse(YTextBox.Text), float.Parse(ZTextBox.Text));
@@ -92,14 +94,14 @@ namespace GameEngine {
 
             switch (cameraType) {
                 case "Ray Tracing":
-                    c = new RaytracingCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, horizontalResolution, verticalResolution, Convert.ToInt32(fieldValues[0]), Convert.ToInt32(fieldValues[1]));
+                    cameraBuffer = new RaytracingCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, horizontalResolution, verticalResolution, Convert.ToInt32(fieldValues[0]), Convert.ToInt32(fieldValues[1]));
                     break;
                 case "Projection":
-                    c = new ProjectionCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, horizontalResolution, verticalResolution);
+                    cameraBuffer = new ProjectionCamera(name, position, direction, horizontalWidth, verticalWidth, sensitivity, horizontalResolution, verticalResolution);
                     break;
             }
-            if (c != null) {
-                environmentControl.AddCamera(c);
+            if (cameraBuffer != null) {
+                environmentControl.AddCamera(cameraBuffer);
                 Close();
             } else {
                 MessageBox.Show("Invalid Camera Type", "Invalid", MessageBoxButtons.OK);
@@ -109,47 +111,47 @@ namespace GameEngine {
         private void CameraListBox_SelectedIndexChanged (object sender, EventArgs e) {
             CameraFieldsFlowLayoutPanel.Controls.Clear();
 
-            Camera temp = null;
-
             switch (CameraListBox.SelectedItem) {
                 case "Ray Tracing":
-                    temp = new RaytracingCamera();
+                    cameraBuffer = new RaytracingCamera();
                     break;
                 case "Projection":
-                    temp = new ProjectionCamera();
+                    cameraBuffer = new ProjectionCamera();
                     break;
             }
 
 
 
-            FieldInfo[] list = temp.GetType().GetFields();
+            FieldInfo[] list = cameraBuffer.GetType().GetFields();
 
             int offset = list.Length - 9; //Camera has 9 fields
 
-            NameTextBox.Text = Convert.ToString(list[offset].GetValue(temp));
+            NameTextBox.Text = Convert.ToString(list[offset].GetValue(cameraBuffer));
 
-            Vector3 tempPos = (Vector3)list[offset + 1].GetValue(temp);
+            Vector3 tempPos = (Vector3)list[offset + 1].GetValue(cameraBuffer);
             XTextBox.Text = Convert.ToString(tempPos.X);
             YTextBox.Text = Convert.ToString(tempPos.Y);
             ZTextBox.Text = Convert.ToString(tempPos.Z);
 
-            Vector3 tempDir = (Vector3)list[offset + 2].GetValue(temp);
+            Vector3 tempDir = (Vector3)list[offset + 2].GetValue(cameraBuffer);
             XTextBox2.Text = Convert.ToString(tempDir.X);
             YTextBox2.Text = Convert.ToString(tempDir.Y);
             ZTextBox2.Text = Convert.ToString(tempDir.Z);
 
-            SensitivityTextBox.Text = Convert.ToString(list[offset + 3].GetValue(temp));
+            SensitivityTextBox.Text = Convert.ToString(list[offset + 3].GetValue(cameraBuffer));
 
-            RadiansTextBox1.Text = Convert.ToString(list[offset + 4].GetValue(temp));
-            RadiansTextBox2.Text = Convert.ToString(list[offset + 5].GetValue(temp));
+            RadiansTextBox1.Text = Convert.ToString(list[offset + 4].GetValue(cameraBuffer));
+            RadiansTextBox2.Text = Convert.ToString(list[offset + 5].GetValue(cameraBuffer));
 
-            HorizontalResolutionTextBox.Text = Convert.ToString(list[offset + 7].GetValue(temp));
-            VerticalResolutionTextBox.Text = Convert.ToString(list[offset + 8].GetValue(temp));
+            HorizontalResolutionTextBox.Text = Convert.ToString(list[offset + 7].GetValue(cameraBuffer));
+            VerticalResolutionTextBox.Text = Convert.ToString(list[offset + 8].GetValue(cameraBuffer));
 
             for (int i = 0; i < offset; ++i) {
-                FieldDisplay fd = new FieldDisplay(list[i], temp, CameraFieldsFlowLayoutPanel);
+                FieldDisplay fd = new FieldDisplay(list[i], cameraBuffer, CameraFieldsFlowLayoutPanel);
                 CameraFieldsFlowLayoutPanel.Controls.Add(fd);
             }
+
+            cameraBuffer.Dispose();
         }
 
         #endregion

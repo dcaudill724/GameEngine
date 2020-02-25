@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace GameEngine {
     class Cube : EnvironmentObject {
         private Color c;
 
         public Cube(Vector3 position, Vector3 size, Color c) {
+            AddMessageAction(MessageType.KeyDown, (object[] parameters) => {
+                Console.WriteLine((Key)parameters[0]);
+            });
+
             Position = position;
 
             Vector3[] points = {
@@ -44,6 +46,13 @@ namespace GameEngine {
 
             this.c = c;
         }
+
+        public override void Update(Vector3 direction) {
+            Position += direction;
+            Mesh.Update(direction);
+            return;
+        }
+
         public override Vector3 GetCenter () {
             return Position;
         }

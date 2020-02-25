@@ -51,5 +51,11 @@ namespace GameEngine {
                 Points[i] = Vector3.Transform(Points[i], matrix);
             }
         }
+
+        public void Update(Vector3 direction) {
+            for (int i = 0; i < 3; ++i) {
+                Points[i] += direction;
+            }
+        }
     }
 }

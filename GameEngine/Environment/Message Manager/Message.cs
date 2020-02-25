@@ -1,6 +1,7 @@
 ﻿namespace GameEngine{
     public enum MessageType {
-        Input
+        KeyUp,
+        KeyDown
     }
 
     public class Message {

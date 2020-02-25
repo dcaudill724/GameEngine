@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameEngine {
     public class MessageReceiver {
         private Dictionary<MessageType, List<Action<object[]>>> messageActions;
 
         protected MessageReceiver() {
-            MessageManager.AddMessageReceiver(this);
             messageActions = new Dictionary<MessageType, List<Action<object[]>>>();
         }
 
@@ -19,6 +15,10 @@ namespace GameEngine {
             } else {
                 messageActions.Add(messageType, new List<Action<object[]>>() { action });
             }
+        }
+
+        protected void Delete() {
+            MessageManager.RemoveMessageReceiver(this);
         }
 
         public void HandleMessage (Message message) {

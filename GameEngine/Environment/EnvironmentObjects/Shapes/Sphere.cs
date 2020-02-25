@@ -80,6 +80,11 @@ namespace GameEngine {
 
         #region EnvironmentObject Functions
 
+        public override void Update (Vector3 direction) {
+            Position += direction;
+            Mesh.Update(direction);
+            return;
+        }
         public override float RayCollision (Ray r) {
             Vector3 oc = Vector3.Subtract(r.Position, Position);
             float a = Vector3.Dot(r.Direction, r.Direction);

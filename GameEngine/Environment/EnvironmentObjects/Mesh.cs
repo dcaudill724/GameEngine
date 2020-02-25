@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 
 namespace GameEngine {
     public class Mesh {
@@ -21,6 +22,13 @@ namespace GameEngine {
         public void AddTriangle(Triangle triangle) {
             Triangles.Add(triangle);
             GraphicsTriangles.Add(new GraphicsTriangle(triangle));
+        }
+
+        public void Update(Vector3 direction) {
+            for (int i = 0; i < Triangles.Count; ++i) {
+                Triangles[i].Update(direction);
+                GraphicsTriangles[i].Update(direction);
+            }
         }
     }
 }

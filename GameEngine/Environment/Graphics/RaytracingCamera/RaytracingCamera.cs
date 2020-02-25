@@ -189,7 +189,8 @@ namespace GameEngine {
         }
 
         public override void Dispose () {
-            throw new NotImplementedException();
+            Delete();
+            return;
         }
 
         #endregion

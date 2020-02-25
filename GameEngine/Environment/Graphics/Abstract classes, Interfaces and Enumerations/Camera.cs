@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.Numerics;
 
 namespace GameEngine {
-    public abstract class Camera {
+    public abstract class Camera : MessageReceiver {
         public string Name;
         public Vector3 Position;
         public Vector3 Direction;

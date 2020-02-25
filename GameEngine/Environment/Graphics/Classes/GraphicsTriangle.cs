@@ -129,5 +129,11 @@ namespace GameEngine {
                 Points[i] = GraphicsVector3.Transform(Points[i], matrix);
             }
         }
+
+        public void Update(Vector3 direction) {
+            foreach (GraphicsVector3 v in Points) {
+                v.Value += direction;
+            }
+        }
     }
 }

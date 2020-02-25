@@ -79,6 +79,7 @@
     <Compile Include="Environment\Graphics\ProjectionCamera\ProjectionCamera.cs" />
     <Compile Include="Environment\Graphics\RaytracingCamera\Ray.cs" />
     <Compile Include="Environment\Graphics\RaytracingCamera\RayPyramid.cs" />
+    <Compile Include="Environment\Input Manager\InputManager.cs" />
     <Compile Include="Environment\Message Manager\Message.cs" />
     <Compile Include="Environment\Message Manager\MessageManager.cs" />
     <Compile Include="Environment\Message Manager\MessageReceiver.cs" />
@@ -180,8 +181,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Environment\Input Manager\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

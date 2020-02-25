@@ -8,7 +8,6 @@ namespace GameEngine {
         /// </summary>
         [STAThread]
         static void Main () {
-            FrameCounter.Init();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Form1 mainForm = new Form1();
