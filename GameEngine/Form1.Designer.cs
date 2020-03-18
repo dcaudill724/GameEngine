@@ -81,6 +81,7 @@
             this.Controls.Add(this.CameraView);
             this.Controls.Add(this.MainEnvironmentControl);
             this.Controls.Add(this.MenuStrip);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.MenuStrip;
             this.Name = "Form1";
             this.Text = "Form1";

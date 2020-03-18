@@ -42,3 +42,5 @@ C:\Users\dusti\Desktop\Repos\GameEngine\GameEngine\obj\Debug\GameEngine.csproj.G
 C:\Users\dusti\Desktop\Repos\GameEngine\GameEngine\obj\Debug\GameEngine.csproj.CoreCompileInputs.cache
 C:\Users\dusti\Desktop\Repos\GameEngine\GameEngine\obj\Debug\GameEngine.exe
 C:\Users\dusti\Desktop\Repos\GameEngine\GameEngine\obj\Debug\GameEngine.pdb
+C:\Users\dusti\Desktop\Coding\GameEngine\GameEngine\obj\Debug\GameEngine.csproj.CopyComplete
+C:\Users\dusti\Desktop\Coding\GameEngine\GameEngine\bin\Debug\Gma.System.MouseKeyHook.dll

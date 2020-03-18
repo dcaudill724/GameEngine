@@ -10,6 +10,7 @@ namespace GameEngine {
 
         public Cube(Vector3 position, Vector3 size, Color c) {
             AddMessageAction(MessageType.KeyDown, (object[] parameters) => {
+                Console.WriteLine("HUH");
                 Console.WriteLine((Key)parameters[0]);
             });
 

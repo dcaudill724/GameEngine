@@ -10,6 +10,8 @@ namespace GameEngine {
         }
 
         protected void AddMessageAction(MessageType messageType, Action<object[]> action) {
+            Console.WriteLine("Adddeedddd");
+            //getting here but cube message isn't firing
             if (messageActions.ContainsKey(messageType)) {
                 messageActions[messageType].Add(action);
             } else {

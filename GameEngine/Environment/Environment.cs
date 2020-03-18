@@ -19,7 +19,6 @@ namespace GameEngine {
         public static void Start (GraphicsDisplay cameraView) {
             FrameCounter.Init();
             MessageManager.Init();
-            InputManager.Init();
             initGraphics(cameraView);
             initEnvironment();
             Thread graphicsThread = new Thread(new ThreadStart(update));
